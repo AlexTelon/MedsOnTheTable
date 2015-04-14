@@ -1,0 +1,12 @@
+{%  extends "layout.html" %}
+
+{% block title %} {{ brand }} information {% endblock %}
+
+{%  block body %}
+{% if brand %}
+  <h1>Information om {{ brand }}</h1>
+{% else %}
+  <h1>Ingen medecin angiven...</h1>
+{% endif %}
+
+{%  endblock %}

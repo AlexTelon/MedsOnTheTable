@@ -9,7 +9,8 @@ def index():
 
 @app.route('/med/<brand>')
 def brandInfo(brand):
-    return 'Medecinen: %s' % brand;
+    return render_template('medPage.html', brand=brand)
+    #return 'Medecinen: %s' % brand;
 
 
 if __name__ == '__main__':

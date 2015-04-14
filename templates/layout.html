@@ -2,9 +2,14 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>test</title>
+    <title> MedsOnTheTable - {% block title %}Home{% endblock %}</title>
 </head>
 <body>
-Alex was here
+<p>Detta kommer alltid att synas, det är i layout.html men utanför block body och skrivs därför inte över.</p>
+
+{%  block body %}
+    <p>Denna text kommer skrivas över på /med/Alvedon eller liknande sidor</p>
+{% endblock %}
+
 </body>
 </html>
