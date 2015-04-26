@@ -1,0 +1,15 @@
+{%  extends "layout.html" %}
+
+{% block title %} FassTest {% endblock %}
+
+{%  block body %}
+
+    <script>
+        console.log("FassTest");
+    </script>
+
+    {% for id in ids %}
+        <li><a href="/info/{{ id }}">{{ id }}</a></li>
+    {% endfor %}
+
+{%  endblock %}

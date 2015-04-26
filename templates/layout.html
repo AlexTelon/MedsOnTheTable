@@ -3,11 +3,23 @@
 <head lang="en">
   <meta charset="UTF-8">
     <title> MedsOnTheTable - {% block title %}Home{% endblock %}</title>
+
 </head>
 <body>
 <h1>Viktiga länkar:</h1>
 <p>3.3 Exempel i nedanstående länk är bra för att börja förstår hur de fungerar.</p>
 <p>http://www.inera.se/Documents/TJANSTER_PROJEKT/Svensk_informationsdatabas_for_lakemedel/Teknik/sil-api-specification-4.0.pdf</p>
+<p>-----------------------------------------------------------------</p>
+
+<b><p>/search</b> gör inget speciellt just nu</p>
+<b><p>/info/id</b> öppnar upp en fass sida för den sidan</p>
+<b><p>/med/id</b> lägger till id till listan av idn vi är intresserade av och kommer lista alla ids</p>
+<p><b>/clearallids</b> tar bort alla ids vi har sparat</p>
+
+<p>-----------------------------------------------------------------</p>
+
+
+
 {%  block body %}
     <p>Denna text kommer skrivas över på /med/Alvedon eller liknande sidor</p>
 {% endblock %}
