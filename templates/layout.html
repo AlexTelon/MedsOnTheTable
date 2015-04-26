@@ -1,15 +1,41 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-  <meta charset="UTF-8">
-    <title> MedsOnTheTable - {% block title %}Home{% endblock %}</title>
-</head>
-<body>
-<p>Detta kommer alltid att synas, det är i layout.html men utanför block body och skrivs därför inte över.</p>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> MedsOnTheTable - {% block title %}Home{% endblock %}</title>
 
+   	<!-- Bootstrap -->
+    <link href="../static/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/bootstrap-3.3.4-dist/css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../static/test.css">
+</head>
+<body role="document">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	    <div class="container">
+	        <div class="navbar-header">
+	            <a class="navbar-brand">Läkemedelsplattan</a>
+	        </div>
+	    </div>
+	</nav>
+<div class="container theme-showcase" role="main">
+    <div class="row">
+        <div class="col-sm-6 col-md-6 panel panel-default" >
 {%  block body %}
-    <p>Denna text kommer skrivas över på /med/Alvedon eller liknande sidor</p>
+    <h3 class= lead >Inget läkemedel angivet</h3>
 {% endblock %}
+        </div>
+    <div class="col-sm-2 col-md-2 sidebar-offcanvas" id="sidebar">
+    <div class="list-group">
+        <a href="#" class="list-group-item">Skanna</a>
+        <a href="#" class="list-group-item">Sök</a>
+        <a href="#" class="list-group-item">Rensa</a>
+    </div>
+    </div><!--/.sidebar-offcanvas-->
+    </div>
+</div>
 
 </body>
 </html>
