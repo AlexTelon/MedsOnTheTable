@@ -24,36 +24,31 @@
 <!-- Static navbar -->
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
-       <div id="navbar">
-           <ul class="nav nav-tabs">
-               <li class="active"><a data-toggle="tab" href="#sectionA">Section A</a></li>
-               <li><a data-toggle="tab" href="#sectionB">Section B</a></li>
-           </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li><a>Sök</a></li>
-                <li><a>Rensa</a></li>
-            </ul>
+       <div id="navbar" class="row">
+           <!-- Flikar/pills med läkemedel -->
+           <div class="col-md-8 col-xs-8">
+               <ul class="nav nav-pills" id="tabs">
+               </ul>
+           </div>
+           <div class="col-md-4 col-xs-3">
+           <!-- Sök och rensa -->
+               <ul class="nav navbar-nav navbar-right">
+                   <li><a>Sök</a></li>
+                   <li><a>Rensa</a></li>
+               </ul>
+           </div>
        </div>
     </div>
 </nav>
 
 <div class="container theme-showcase" role="main">
-    <div class="panel panel-default" >
+    <div class="panel-default">
+        <!-- Info om läkemedel -->
         <div class="tab-content">
-            <div id="sectionA" class="tab-pane fade in active">
-                <h3 class= lead >Läkemedel A, styrka</h3>
-                 <div class="panel-body">
-                    <p> Form: Vilken form</p>
-                </div>
-        </div>
-            <div id="sectionB" class="tab-pane fade in active">
-                <h3 class= lead >Läkemedel B, styrka</h3>
-                <div class="panel-body">
-                    <p> Form: Vilken form</p>
-                </div>
-                </div>
+            <div class="tab-content fade in active">
             </div>
+        </div>
+    </div>
 </div>
 </div>
 
@@ -78,8 +73,25 @@ $('#monitor').html(viewportWidth);
 });
 </script>
 
+
+
+<script>
+    temp = 6;
+    for (i = 0; i < temp; i++)
+    {
+        var nextTab = $('#tabs li').size()+1;
+
+        // Skapar så många flikar som temp anger
+        $('<li><a href="#tab'+nextTab+'" data-toggle="tab">Läkemedel '+nextTab+'</a></li>').appendTo('#tabs');
+
+        // Skapar innehåll till fliken
+        $('<div class="tab-pane" id="tab'+nextTab+'">' +
+        'Läkemedel ' +nextTab+', styrka</div>').appendTo('.tab-content');
+
+        // Gör den första fliken "aktiv"
+        $('#tabs a:first').tab('show');
+    }
+</script>
+
 </body>
-
-<!--  -->
-
 </html>
