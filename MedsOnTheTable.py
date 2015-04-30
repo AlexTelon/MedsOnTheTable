@@ -51,7 +51,7 @@ def brandInfo(brand):
         medArray.append(brand)
 
     print "medArray: ", medArray
-    return render_template('fassTest.html', ids=medArray)
+    return render_template('fassTest.html', ids=medArray, len=len(medArray))
     #return 'Medecinen: %s' % brand;
 
 @app.route('/clearallids')
