@@ -61,5 +61,13 @@ def clearAllIds():
     return "all ids are cleared"
 
 
+@app.route('/card')
+def card_view():
+    return render_template('card_view.html')
+
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
