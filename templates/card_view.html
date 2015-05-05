@@ -68,12 +68,81 @@
     <script src="../static/bootstrap-3.3.4-dist/js/jquery-2.1.3.min.js"></script>
     <script src="../static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
 </head>
-<body>
 
-<div class="container">
+<!--<body> -->
+{%  block body %}
+
+<div class="container-fluid">
+
 <div class="row pricing-table">
+
+<!-- Create a loop through the list -->
+
+{% for id in ids %}
+    <script>console.log(id)</script>
+    <div class="col-xs-3 col-md-3" >
+    <div class="panel panel-default">
+        <div class="panel-heading panel-N">
+            <h3 class="panel-title">
+                Nervsystemet
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="the-price">
+                <h1>
+                    <span class="subscript">{{ id }}</span>
+                </h1>
+                <small><em>Brustabletter</em></small>
+            </div>
+            <table class="table">
+                <tr>
+                    <td>
+                        Paracetamol<span class="badge">4</span>
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td>
+                         500 mg
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        99:-
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td>
+                        <a href="#" class="btn btn-success btn-sm" role="button">Graviditet</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Amning - Ikon -
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td>
+                        <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        my awes
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+
+
 <!-- ---- First card ---- -->
-<div class="col-xs-3 col-md-4">
+<div class="col-xs-3 col-md-3">
     <div class="panel panel-default">
         <div class="panel-heading panel-N">
             <h3 class="panel-title">
@@ -85,53 +154,53 @@
                 <h1>
                     <span class="subscript">Alvedon</span>
                 </h1>
-                <small><em>Limited membership</em></small>
+                <small><em>Brustabletter</em></small>
             </div>
             <table class="table">
                 <tr>
                     <td>
-                        Brustablett 500 mg (vita, plana, citronsmak, 25 mm)
+                        Paracetamol <span class="badge"> 4 </span>
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        1 Project
+                         500 mg
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        100K API Access
+                        99:-
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        100MB Storage
+                        <a href="#" class="btn btn-warning btn-sm" role="button">Graviditet</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        My Awesome Services
+                        <a href="#" class="btn btn-danger btn-sm" role="button">Amning</a>
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        100MB Storage
+                        <span class="label label-success">Doping</span>
+                        <!-- <a href="#" class="btn btn-success btn-sm" role="button">Doping</a> -->
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        My Awesome Services
+                        my awes
                     </td>
                 </tr>
             </table>
         </div>
         <div class="panel-footer">
-            <a href="#" class="btn btn-success btn-sm" role="button">Sign Up</a>
         </div>
     </div>
 </div>
 <!-- ---- Second card ---- -->
-<div class="col-xs-3 col-md-4">
+<div class="col-xs-3 col-md-3">
     <div class="panel panel-default">
         <div class="panel-heading panel-C">
             <h3 class="panel-title">
@@ -143,53 +212,52 @@
                 <h1>
                     <span class="subscript">Eliquis</span>
                 </h1>
-                <small><em>Limited membership</em></small>
+                <small><em>Filmdragerad tablett</em></small>
             </div>
             <table class="table">
                 <tr>
                     <td>
-                        1 Accounts
+                        Apixaban
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        1 Project
+                        5 mg
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        100K API Access
+                        50:-
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        100MB Storage
+                        <a href="#" class="btn btn-danger btn-sm" role="button">Graviditet</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        My Awesome Services
+                        <a href="#" class="btn btn-success btn-sm" role="button">Amning</a>
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        100MB Storage
+                        <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        My Awesome Services
+                        My
                     </td>
                 </tr>
             </table>
         </div>
         <div class="panel-footer">
-            <a href="#" class="btn btn-success btn-sm" role="button">Sign Up</a>
         </div>
     </div>
 </div>
 <!-- ---- Third card ---- -->
-<div class="col-xs-3 col-md-4">
+<div class="col-xs-3 col-md-3">
     <div class="panel panel-default">
         <div class="panel-heading panel-R">
             <h3 class="panel-title">
@@ -201,53 +269,52 @@
                 <h1>
                     <span class="subscript">Kestine</span>
                 </h1>
-                <small>1 month FREE trial</small>
+                <small>Filmdragerad tablett</small>
             </div>
             <table class="table">
                 <tr>
                     <td>
-                        2 Accountss
+                        Ebastin
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        5 Project
+                        10 mg
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        100K API Access
+                        199:-
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        200MB Storage
+                        <a href="#" class="btn btn-danger btn-sm" role="button">Graviditet</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        My Awesome Services
+                        <a href="#" class="btn btn-danger btn-sm" role="button">Amning</a>
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        200MB Storage
+                        <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        My Awesome Services
+                        my awes
                     </td>
                 </tr>
             </table>
         </div>
         <div class="panel-footer">
-            <a href="#" class="btn btn-success btn-sm" role="button">Mer info</a>
         </div>
     </div>
 </div>
 <!-- ---- Fourth card ---- -->
-<div class="col-xs-3 col-md-4">
+<div class="col-xs-3 col-md-3">
     <div class="panel panel-default">
         <div class="panel-heading panel-M">
             <h3 class="panel-title">
@@ -279,34 +346,38 @@
                 </tr>
                 <tr class="active">
                     <td>
-                        200MB Storage
+                        <a href="#" class="btn btn-danger btn-sm" role="button">Graviditet</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        My Awesome Services
+                        <a href="#" class="btn btn-danger btn-sm" role="button">Amning</a>
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        200MB Storage
+                        <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        My Awesome Services
+                        my awes
                     </td>
                 </tr>
             </table>
         </div>
         <div class="panel-footer">
-            <a href="#" class="btn btn-success btn-sm" role="button">Mer info</a>
         </div>
     </div>
 </div>
-<!-- -->
-</div>
-<!--  -->
-</div>
-</body>
+
+
+
+</div> <!-- row -->
+
+
+
+</div> <!-- container -->
+<!-- </body> -->
+{%  endblock %}
 </html>
