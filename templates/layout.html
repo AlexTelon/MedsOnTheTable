@@ -2,10 +2,40 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title> MedsOnTheTable - {% block title %}Home{% endblock %}</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../static/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet">
+    {#<link rel="stylesheet" href="{{ url_for('static/bootstrap-3.3.4-dist/css', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static/bootstrap-3.3.4-dist/css', filename='bootstrap-theme.min.css') }}">#}
+    <link href="../static/bootstrap-3.3.4-dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
 </head>
 <body>
+{% block navbar %}
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+       <div id="navbar" class="row">
+           <!-- Flikar/pills med läkemedel -->
+           <div class="col-md-8 col-xs-8">
+               <ul class="nav nav-pills" id="tabs">
+               </ul>
+           </div>
+           <div class="col-md-4 col-xs-3">
+           <!-- Sök och rensa -->
+               <ul class="nav navbar-nav navbar-right">
+                   <li><a>Sök</a></li>
+                   <li><a href="/clearNavbar">Rensa</a></li>
+               </ul>
+           </div>
+       </div>
+    </div>
+</nav>
+{% endblock %}
+
+
+<div id="content">
 <h1>Viktiga länkar:</h1>
 <p>3.3 Exempel i nedanstående länk är bra för att börja förstår hur de fungerar.</p>
 <p>http://www.inera.se/Documents/TJANSTER_PROJEKT/Svensk_informationsdatabas_for_lakemedel/Teknik/sil-api-specification-4.0.pdf</p>
@@ -17,7 +47,7 @@
 <p><b>/clearallids</b> tar bort alla ids vi har sparat</p>
 
 <p>Exempel på giltiga idn är:</p>
-<p>20090916000021 och 20030307000193</p>
+<p>20090916000021, 20030307000193 och 19810313000073</p>
 <p>Men alla giltiga idn ska fungera</p>
 
 <p>-----------------------------------------------------------------</p>
@@ -25,8 +55,54 @@
 
 
 {%  block body %}
-    <p>Denna text kommer skrivas över på /med/Alvedon eller liknande sidor</p>
+    <p>Denna text är i block body</p>
 {% endblock %}
+</div>
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../static/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
+{#<script src="../../assets/js/docs.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>#}
+
+<script>
+    $.ajax({
+        url: "/navbarInfo",
+        context: document.body
+        }).done(function(result) {
+        //console.log("this is the result: ", result)
+        // Skapa en flik per medecin
+        for (var med in result) {
+            //console.log("name: ", med);
+            //console.log("id: ", result[med]);
+            url = "/info/" + parseInt(result[med]);
+            //console.log("url: ", url);
+            // skapa en #<id> path
+            path = "#" + result[med];
+            $('<li><a href=' + path + " data-toggle=\"tab\">" + med + '</a></li>').appendTo('#tabs');
+        }
+    });
+
+    $( document ).ready(function() {
+        $( "#tabs" ).click(function(data) {
+            hash = data.target.hash; // get the #<id> hash
+            id = hash.slice(1); // remove # at the start
+            callUrl = "/info/" + id; // create url to call
+            // Make the call
+            $.ajax({
+                url: callUrl,
+                context: document.body
+                }).done(function(result) {
+                    // our flask backend answers with the html page for the meds which we insert to the content div.
+                    $("#content").html(result);
+            });
+        });
+    });
+
+</script>
+
 
 </body>
 </html>

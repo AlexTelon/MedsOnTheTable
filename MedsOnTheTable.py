@@ -1,6 +1,6 @@
 import sys
-
-from flask import Flask, render_template
+from mercurial.templatefilters import json
+from flask import Flask, render_template, jsonify, url_for
 import suds
 
 
@@ -19,15 +19,15 @@ def index():
 @app.route('/search')
 def search():
     url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
-    sil = suds.client.Client(url)
-    # subs = sil.service.getSubstancesBySubstanceName ("Kodein%")
+    sil = suds.client.Client (url)
+    subs = sil.service.getDistributedDrugsByDrugId ("20090916000021", False, -1)
+    #subs = sil.service.getSubstancesBySubstanceName ("Kodein%")
     #subs = sil.service.getDistributedDrugsByDistributedDrugTradeName ("Citodon", False, -1)
     #subs = sil.service.getDrugsByAtcCode ("N02AA59", False, -1)
-    subs = sil.service.getDrugArticlesByDrugId("20090916000021", False, -1)
     #subs = sil.service.getSILPregnancyLactationWarningsByNplIdList ("20090916000021")
     #subs = sil.service.getSuperDrugsByDistributedDrugTradeName("Aspirin", False, -1)
     #return subs[0]['text']
-    print subs
+    print subs[0]['tradeName']
     return render_template("test.html", info=subs)
 
 
@@ -54,15 +54,34 @@ def brandInfo(brand):
         medArray.append(brand)
 
     print "medArray: ", medArray
-    return render_template('fassTest.html', ids=medArray)
+    return render_template('fassTest.html', ids=medArray, len=len(medArray))
     #return 'Medecinen: %s' % brand;
 
 
-@app.route('/clearallids')
+@app.route('/navbarInfo')
+def navbarInfo():
+    dict = {};
+    url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
+    sil = suds.client.Client (url)
+    for med in medArray:
+        subs = sil.service.getDistributedDrugsByDrugId (med, False, -1)
+        name = subs[0]['tradeName']
+        dict[name] = med
+
+    print dict
+    return jsonify(dict)
+
+@app.route('/navbar/nrOfIds')
+def nrOfIds():
+    temp = len(medArray)
+    return str(temp)
+
+
+@app.route('/clearNavbar')
 def clearAllIds():
     while 0 != len(medArray):
         medArray.pop()
-    return "all ids are cleared"
+    return index()
 
 
 @app.route('/card')
