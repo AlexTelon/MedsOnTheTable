@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "layout2.html" %}
 
-</body>
-</html>
+{% block title %}Index{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+  <h1>Index</h1>
+    <p class="important">
+      Welcome to my awesome homepage.
+    </p>
+
+{% endblock %}
+
+
+{% block footer %} {{ super() }} {% endblock %}

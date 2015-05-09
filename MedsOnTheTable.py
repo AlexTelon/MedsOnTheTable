@@ -1,20 +1,30 @@
 # -*- coding: utf-8 -*-
-import sys
 
+#imports
+import sys
 from flask import Flask, render_template, jsonify
 import suds
-
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
-medArray = []
 
+# Variables
+medArray = []
+drug_list = {}
 
 @app.route('/')
 def index():
     return render_template("layout.html")
+
+@app.route('/l2')
+def index2():
+    return render_template("layout2.html")
+
+@app.route('/test')
+def test():
+    return render_template("child.html")
 
 
 @app.route('/search')
@@ -49,6 +59,9 @@ def info(id):
 # subs = sil.service.getDrugArticlesByDrugId ("20090916000021", False, -1) Gives information about different packages
 # and their prices and so on
 
+@app.route('/med_info/<id>')
+def med_info(id):
+    return render_template("drug_info.html", id=id)
 
 @app.route('/med/<brand>')
 def brandInfo(brand):
@@ -57,7 +70,7 @@ def brandInfo(brand):
         medArray.append(brand)
 
     print "medArray: ", medArray
-    return render_template('fassTest.html', ids=medArray, len=len(medArray))
+    return render_template('med_info.html', ids=medArray, len=len(medArray))
     #return 'Medecinen: %s' % brand;
 
 
@@ -97,7 +110,6 @@ def card_view():
     #drug_list is a dictionary key=drugId aka nlpdID --> value= information about a object
     # [0] - DistributedDrugs Object
     # [1] - atcsCode Object
-    drug_list = {}
 
     # add some test object to the list
     medArray.append('20090916000021')
@@ -140,7 +152,7 @@ def card_view():
 
 
             #print distDrugsHistNames
-            
+
 
             # Add the Sil-object to the drug_list dictionary
             drug_list[drugId] = distDrugs
