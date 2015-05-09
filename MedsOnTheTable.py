@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 import sys
-from mercurial.templatefilters import json
-from flask import Flask, render_template, jsonify, url_for
+
+from flask import Flask, render_template, jsonify
 import suds
 
 
@@ -19,8 +20,10 @@ def index():
 @app.route('/search')
 def search():
     url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
-    sil = suds.client.Client (url)
-    subs = sil.service.getDistributedDrugsByDrugId ("20090916000021", False, -1)
+    sil = suds.client.Client(url)
+    subs = sil.service.getDistributedDrugsByDrugId("20090916000021", False, -1)
+    # print subs[0]
+
     #subs = sil.service.getSubstancesBySubstanceName ("Kodein%")
     #subs = sil.service.getDistributedDrugsByDistributedDrugTradeName ("Citodon", False, -1)
     #subs = sil.service.getDrugsByAtcCode ("N02AA59", False, -1)
@@ -43,7 +46,7 @@ def info(id):
 
 # How we get stuff from a ddrug ddrug[0]['nplId'].
 
-#  subs = sil.service.getDrugArticlesByDrugId ("20090916000021", False, -1) Gives information about different packages
+# subs = sil.service.getDrugArticlesByDrugId ("20090916000021", False, -1) Gives information about different packages
 # and their prices and so on
 
 
@@ -62,14 +65,15 @@ def brandInfo(brand):
 def navbarInfo():
     dict = {};
     url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
-    sil = suds.client.Client (url)
+    sil = suds.client.Client(url)
     for med in medArray:
-        subs = sil.service.getDistributedDrugsByDrugId (med, False, -1)
+        subs = sil.service.getDistributedDrugsByDrugId(med, False, -1)
         name = subs[0]['tradeName']
         dict[name] = med
 
     print dict
     return jsonify(dict)
+
 
 @app.route('/navbar/nrOfIds')
 def nrOfIds():
@@ -86,7 +90,81 @@ def clearAllIds():
 
 @app.route('/card')
 def card_view():
-    return render_template('card_view.html', ids=medArray)
+    # set up the connection
+    url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
+    sil = suds.client.Client(url)
+
+    #drug_list is a dictionary key=drugId aka nlpdID --> value= information about a object
+    # [0] - DistributedDrugs Object
+    # [1] - atcsCode Object
+    drug_list = {}
+
+    # add some test object to the list
+    medArray.append('20090916000021')
+    medArray.append('19590602000075')
+    medArray.append('19670825000035')
+    medArray.append('19581231000017')
+    medArray.append('19970619000075')
+
+    atc_dict = {'A': 'Matsmältningsorgan och ämnesomsättning',
+                'B': 'Blod och blodbildande organ',
+                'C': 'Hjärta och kretslopp',
+                'D': 'Hudpreparat',
+                'G': 'Urin- och könsorgan samt könshormoner',
+                'H': 'Systemiska hormonpreparat, exkl. könshormoner och insuliner',
+                'J': 'Antiinfektiva medel för systemiskt bruk',
+                'L': 'Tumörer och rubbningar i immunsystemet',
+                'M': 'Rörelseapparaten',
+                'N': 'Nervsystemet',
+                'P': 'Antiparasitära, insektsdödande och repellerande medel',
+                'R': 'Andningsorgan',
+                'S': 'Ögon och öron',
+                'V': 'Övrigt'}
+
+    buttons = {"H": "btn-danger",
+               "M": "btn-warning",
+               "L": "btn-success"}
+
+    if not medArray:
+        print "medArray is empty"
+    else:
+        for drugId in medArray:
+            #bättre med anropet??
+            #superDrug = sil.service.GetSuperDrugsByDrugIdList (drugId, False, -1)
+
+            #parse diffrent objects from SIL
+            distDrugs = sil.service.getDistributedDrugsByDrugId(drugId, False, -1)
+            atcCode = sil.service.getAtcsByDrugId(drugId)
+            distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(drugId)
+            drug = sil.service.getDrugByDrugId(drugId, False, -1)
+
+
+            #print distDrugsHistNames
+
+            # Add the Sil-object to the drug_list dictionary
+            drug_list[drugId] = distDrugs
+            drug_list[drugId].append(atcCode[0])
+            drug_list[drugId].append(distDrugsHistNames)
+            drug_list[drugId].append(drug)
+
+            # Debug prints
+            #print type(drug_list[drugId])
+            print drug_list[drugId][1]['atcCode'][0]  # forsta bokstaven for atc
+            #print drug_list[drugId][2] #lista over historiska namn
+            #print drug_list[drugId][3]        # skriv ut hela drug objektet
+            #print drug_list[drugId][3]['substanceGroupName'] # vilken substans
+
+            #print drug
+
+    #print drug_list
+
+    print atc_dict[drug_list[drugId][1]['atcCode'][0]]
+
+    #print drug_list[drugId]['salesstoppedFlag']
+    #print atcCode[0]
+
+    return render_template('card_view.html', ids=medArray, drug_list=drug_list, buttons=buttons, atc_dict=atc_dict)
+
 
 @app.route('/grid')
 def grid():
@@ -96,8 +174,6 @@ def grid():
 @app.route('/drug_info')
 def drug_info():
     return render_template('drug_info.html')
-
-
 
 
 if __name__ == '__main__':

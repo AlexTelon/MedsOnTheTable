@@ -40,19 +40,59 @@
         .subscript {
             font-size: 25px;
         }
-        .panel-default > .panel-N {
+
+        /* Definiera upp de olika fargerna for ATC-koder */
+
+        .panel-default > .panel-A {
             background: #d9534f;
+            color: #fff; }
+        .panel-default > .panel-B {
+            background: #998C63;
             color: #fff; }
         .panel-default > .panel-C {
             background: #5cb85c;
             color: #fff; }
-        .panel-default > .panel-R {
-            background: #5bc0de;
-            color: #fff; }
-        .panel-default > .panel-M {
+        .panel-default > .panel-D {
             background: #f0ad4e;
             color: #fff;
         }
+
+        .panel-default > .panel-G {
+            background: #399000;
+            color: #fff; }
+        .panel-default > .panel-H {
+            background: #5cb85c;
+            color: #fff; }
+        .panel-default > .panel-J {
+            background: #0BC9CD;
+            color: #fff; }
+        .panel-default > .panel-L {
+            background: #520C04;
+            color: #fff;
+        }
+
+        .panel-default > .panel-M {
+            background: #000A01;
+            color: #fff; }
+        .panel-default > .panel-N {
+            background: #A5C882;
+            color: #fff; }
+        .panel-default > .panel-P {
+            background: #4E6766;
+            color: #fff; }
+        .panel-default > .panel-R {
+            background: #DBC2CF;
+            color: #fff;
+        }
+
+        .panel-default > .panel-S {
+            background: #2E4756;
+            color: #fff; }
+        .panel-default > .panel-V {
+            background: #7B1E7A;
+            color: #fff; }
+        /* ------------------------------ */
+
         .panel-title {
             text-align: left;
         }
@@ -78,56 +118,61 @@
 
 <!-- Create a loop through the list -->
 
-{% for id in ids %}
+{% for drugId in ids %}
     <script>console.log(id)</script>
     <div class="col-xs-3 col-md-3" >
     <div class="panel panel-default">
-        <div class="panel-heading panel-N">
+        <div class="panel-heading panel-{{ drug_list[drugId][1]['atcCode'][0] }}">
             <h3 class="panel-title">
-                Nervsystemet
+                <!-- Vilket organ det verkar mot -->
+                {{ atc_dict[drug_list[drugId][1]['atcCode'][0]] }}
             </h3>
         </div>
         <div class="panel-body">
             <div class="the-price">
                 <h1>
-                    <span class="subscript">{{ id }}</span>
+                    <span class="subscript">{{ drug_list[drugId][0]['tradeName'] }}</span>
                 </h1>
-                <small><em>Brustabletter</em></small>
+                <small><em>{{ drug_list[drugId][0]['drugFormTextSv'] }}</em></small>
             </div>
             <table class="table">
                 <tr>
                     <td>
-                        Paracetamol<span class="badge">4</span>
+                        {{ drug_list[drugId][3]['substanceGroupName'] }}<span class="badge">4</span>
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                         500 mg
+                         {{ drug_list[drugId][0]['strengthText'] }}
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        99:-
+                        {{ drug_list[drugId][1]['atcCode'] }}
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        <a href="#" class="btn btn-success btn-sm" role="button">Graviditet</a>
+                        <a href="#" class="btn btn-sm {{ buttons[drug_list[drugId][0]['silPregnancyCode']] }}" role="button">Graviditet</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Amning - Ikon -
+                        <a href="#" class="btn btn-sm {{ buttons[drug_list[drugId][0]['silLactationCode']] }}" role="button">Amning</a>
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
+                        <a href="#" class="btn btn-sm {{ buttons[drug_list[drugId][0]['silLactationCode']] }}" role="button">Doping</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        my awes
+                        <!-- print historiska namn -->
+                        {% for names in drug_list[drugId][2] %}
+                            <p> {{ names }} </p>
+                        {% endfor %}
+
                     </td>
                 </tr>
             </table>
