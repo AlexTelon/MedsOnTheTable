@@ -140,6 +140,7 @@ def card_view():
 
 
             #print distDrugsHistNames
+            
 
             # Add the Sil-object to the drug_list dictionary
             drug_list[drugId] = distDrugs
