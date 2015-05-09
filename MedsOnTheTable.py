@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
+"""
+    Läkemedelsplattan
+    ~~~~~~~~~~~~~~
+    Ska visa information om mediciner...
 
-#imports
+
+    :copyright: (c) 2015 by Johan Nordin, Alex Telon, Kristina Engström.
+    :license: LICENSE_NAME, see LICENSE_FILE for more details.
+"""
+
+# Imports  ---------------------------------------------
 import sys
 from flask import Flask, render_template, jsonify
 import suds
@@ -10,23 +19,39 @@ sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
 
-# Variables
+# Constants ---------------------------------------------
+atc_dict = {'A': 'Matsmältningsorgan och ämnesomsättning',
+            'B': 'Blod och blodbildande organ',
+            'C': 'Hjärta och kretslopp',
+            'D': 'Hudpreparat',
+            'G': 'Urin- och könsorgan samt könshormoner',
+            'H': 'Systemiska hormonpreparat, exkl. könshormoner och insuliner',
+            'J': 'Antiinfektiva medel för systemiskt bruk',
+            'L': 'Tumörer och rubbningar i immunsystemet',
+            'M': 'Rörelseapparaten',
+            'N': 'Nervsystemet',
+            'P': 'Antiparasitära, insektsdödande och repellerande medel',
+            'R': 'Andningsorgan',
+            'S': 'Ögon och öron',
+            'V': 'Övrigt'}
+
+buttons = {"H": "btn-danger",
+           "M": "btn-warning",
+           "L": "btn-success"}
+
+
+# Variables  ---------------------------------------------
 medArray = []
 drug_list = {}
 
+
+# Routes     ---------------------------------------------
 @app.route('/')
 def index():
     return render_template("layout.html")
 
-@app.route('/l2')
-def index2():
-    return render_template("layout2.html")
 
-@app.route('/test')
-def test():
-    return render_template("child.html")
-
-
+#: For search
 @app.route('/search')
 def search():
     url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
@@ -44,13 +69,13 @@ def search():
     return render_template("test.html", info=subs)
 
 
+#: Get information from fass
 @app.route('/info/<id>')
 def info(id):
     url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
     sil = suds.client.Client(url)
     Fass = sil.service.getFassDocsByDrugId(str(id))
     return Fass[0]['XHtml']
-
 
 # ATC is about what kind of medecine we are talking about, Different groups like blood and nervous system.
 
@@ -59,10 +84,13 @@ def info(id):
 # subs = sil.service.getDrugArticlesByDrugId ("20090916000021", False, -1) Gives information about different packages
 # and their prices and so on
 
+
+#: Our own information page
 @app.route('/med_info/<id>')
 def med_info(id):
     return render_template("drug_info.html", id=id)
 
+#: Add medicine from NFC
 @app.route('/med/<brand>')
 def brandInfo(brand):
     # Make sure we only put in unique ids
@@ -71,9 +99,8 @@ def brandInfo(brand):
 
     print "medArray: ", medArray
     return render_template('med_info.html', ids=medArray, len=len(medArray))
-    #return 'Medecinen: %s' % brand;
 
-
+#: ???
 @app.route('/navbarInfo')
 def navbarInfo():
     dict = {};
@@ -88,19 +115,21 @@ def navbarInfo():
     return jsonify(dict)
 
 
+#: ???
 @app.route('/navbar/nrOfIds')
 def nrOfIds():
     temp = len(medArray)
     return str(temp)
 
 
+#: Remove all medicine from the list.
 @app.route('/clearNavbar')
 def clearAllIds():
     while 0 != len(medArray):
         medArray.pop()
     return index()
 
-
+#: The horizontal view
 @app.route('/card')
 def card_view():
     # set up the connection
@@ -117,25 +146,6 @@ def card_view():
     medArray.append('19670825000035')
     medArray.append('19581231000017')
     medArray.append('19970619000075')
-
-    atc_dict = {'A': 'Matsmältningsorgan och ämnesomsättning',
-                'B': 'Blod och blodbildande organ',
-                'C': 'Hjärta och kretslopp',
-                'D': 'Hudpreparat',
-                'G': 'Urin- och könsorgan samt könshormoner',
-                'H': 'Systemiska hormonpreparat, exkl. könshormoner och insuliner',
-                'J': 'Antiinfektiva medel för systemiskt bruk',
-                'L': 'Tumörer och rubbningar i immunsystemet',
-                'M': 'Rörelseapparaten',
-                'N': 'Nervsystemet',
-                'P': 'Antiparasitära, insektsdödande och repellerande medel',
-                'R': 'Andningsorgan',
-                'S': 'Ögon och öron',
-                'V': 'Övrigt'}
-
-    buttons = {"H": "btn-danger",
-               "M": "btn-warning",
-               "L": "btn-success"}
 
     if not medArray:
         print "medArray is empty"
@@ -179,6 +189,8 @@ def card_view():
     return render_template('card_view.html', ids=medArray, drug_list=drug_list, buttons=buttons, atc_dict=atc_dict)
 
 
+# Some test routes (can be removed) ---------------------------------------------
+
 @app.route('/grid')
 def grid():
     return render_template('grid_system.html')
@@ -187,6 +199,15 @@ def grid():
 @app.route('/drug_info')
 def drug_info():
     return render_template('drug_info.html')
+
+@app.route('/l2')
+def index2():
+    return render_template("layout2.html")
+
+@app.route('/test')
+def test():
+    return render_template("child.html")
+
 
 
 if __name__ == '__main__':
