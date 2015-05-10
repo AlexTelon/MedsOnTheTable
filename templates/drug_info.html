@@ -6,6 +6,9 @@
 
     <link rel="stylesheet" type="text/css" href="../static/bootstrap-3.3.4-dist/css/bootstrap.min.css">
 
+    <!-- Color for ATC-code -->
+    <link rel="stylesheet" type="text/css" href="../static/color.css">
+
     <script src="../static/bootstrap-3.3.4-dist/js/jquery-2.1.3.min.js"></script>
     <script src="../static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../static/bootstrap-3.3.4-dist/lib/holderjs/holder.js"></script>
@@ -20,8 +23,9 @@
 
 <div class="col-lg-12">
     <div class="panel panel-default" id="content-formatting">
-        <div class="panel-heading">
-            Alvedon {{ id }}
+        <div class="panel-heading panel-{{ drug_list[drugId][1]['atcCode'][0] }}">
+            <!-- Vilket organ det verkar mot -->
+            {{ atc_dict[drug_list[drugId][1]['atcCode'][0]] }}
         </div>
 
         <div class="media">
@@ -31,55 +35,49 @@
                 </a>
             </div>
             <div class="media-body">
-                <h4 class="media-heading">Media heading</h4>
-                This is some sample text. This is some sample text.
-                This is some sample text. This is some sample text.
-                This is some sample text. This is some sample text.
-                This is some sample text. This is some sample text.
+                <h4 class="media-heading">Alvedon</h4>
+                <table class="table">
+                    <tr>
+                        <td>Substans: </td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td>Pris:</td>
+                        <td>400</td>
+                    </tr>
+                    <tr>
+                        <td>test</td>
+                        <td>400</td>
+                    </tr>
+                    <tr>
+                        <td>Product B</td>
+                        <td>400</td>
+                    </tr>
+                </table>
             </div>
         </div>
-        <table class="table">
-            <th>Product</th>
-            <th>Price</th>
-            <tr>
-                <td><p class="lead">Substans: </p></td>
-                <td>200</td>
-            </tr>
-            <tr>
-                <td>Product B</td>
-                <td>400</td>
-            </tr>
-        </table>
 
 
-        <p class="lead">Substans: </p>
+        <p class="lead">Vilka andra läkemedelsvaror innehåller samma substans?: </p>
 
-        <p class="lead">Pris: </p>
+        <p class="lead">Vilka andra substanser har likartad verkan? </p>
 
-        <p class="lead">Biverkningar: </p>
+        <p class="lead">Vad kostar andra alternativ? </p>
 
-        <p class="lead">Gravitet och amning: </p>
+        <p class="lead">Biverkningar? </p>
 
-        <p class="lead">Doping: </p>
+        <p class="lead">Graviditet och amning?</p>
 
-        <p class="lead">Särskilda anvisningar: </p>
+        <p class="lead">Doping? </p>
 
-        <p>This is an <b>ordinary paragraph</b> that is <i>long enough</i> to wrap to <u>multiple lines</u> so that you
-            can see how the line spacing looks.</p>
+        <p class="text-muted">Särskilda anvisningar?</p>
 
-        <p class="text-muted">Muted color paragraph.</p>
-
-        <p class="text-warning">Warning color paragraph.</p>
-
-        <p class="text-danger">Danger color paragraph.</p>
-
-        <p class="text-info">Info color paragraph.</p>
-
-        <p class="text-success">Success color paragraph.</p>
 
         <p>
             <small>This is text in a <code>small</code> wrapper. <abbr title="No Big Deal">NBD</abbr>, right?</small>
         </p>
+
+
         <hr>
         <hr>
         <blockquote>Here's what a blockquote looks like in Bootstrap.

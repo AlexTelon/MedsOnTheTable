@@ -1,6 +1,6 @@
 {%  extends "layout.html" %}
 
-{% block title %} {{ brand }} information {% endblock %}
+{% block title %} {{ nplId }} information {% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -21,80 +21,9 @@
 
 {% endblock %}
 
+
+
 {% block content %}
-
-<div class="col-lg-12">
-    <div class="panel panel-default" id="content-formatting">
-        <div class="panel-heading">Alvedon
-        </div>
-
-        <div class="media">
-            <div class="pull-right">
-                <a href="#">
-                    <img class="media-object" data-src="holder.js/200x200/sky" alt="">
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">Media heading</h4>
-                     This is some sample text. This is some sample text.
-                     This is some sample text. This is some sample text.
-                     This is some sample text. This is some sample text.
-                     This is some sample text. This is some sample text.
-            </div>
-        </div>
-
-        <table class="table">
-            <th>Product</th>
-            <th>Price</th>
-            <tr>
-                <td><p class="lead">Substans: </p></td>
-                <td>200</td>
-            </tr>
-            <tr>
-                <td>Product B</td>
-                <td>400</td>
-            </tr>
-        </table>
-
-
-        <p class="lead">Substans: </p>
-
-        <p class="lead">Pris: </p>
-
-        <p class="lead">Biverkningar: </p>
-
-        <p class="lead">Gravitet och amning: </p>
-
-        <p class="lead">Doping: </p>
-
-        <p class="lead">Särskilda anvisningar: </p>
-
-        <p>This is an <b>ordinary paragraph</b> that is <i>long enough</i> to wrap to <u>multiple lines</u> so that you
-            can see how the line spacing looks.</p>
-
-        <p class="text-muted">Muted color paragraph.</p>
-
-        <p class="text-warning">Warning color paragraph.</p>
-
-        <p class="text-danger">Danger color paragraph.</p>
-
-        <p class="text-info">Info color paragraph.</p>
-
-        <p class="text-success">Success color paragraph.</p>
-
-        <p>
-            <small>This is text in a <code>small</code> wrapper. <abbr title="No Big Deal">NBD</abbr>, right?</small>
-        </p>
-        <hr>
-        <hr>
-        <blockquote>Here's what a blockquote looks like in Bootstrap.
-            <small>Use <code>small</code> to identify the source.</small>
-        </blockquote>
-        <hr>
-        <hr>
-        <pre>function preFormatting() {  // looks like this;  var something = somethingElse;  return true;}</pre>
-    </div>
-</div>
 
 
 {% endblock %}

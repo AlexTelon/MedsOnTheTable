@@ -4,15 +4,21 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title> MedsOnTheTable - {% block title %}Home{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="../static/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet">
-    {#<link rel="stylesheet" href="{{ url_for('static/bootstrap-3.3.4-dist/css', filename='bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static/bootstrap-3.3.4-dist/css', filename='bootstrap-theme.min.css') }}">#}
+
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <link href="../static/bootstrap-3.3.4-dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+
+
+
 </head>
 <body>
+
+<div class="container">
 
 {% block navbar %}
     <!-- Static navbar -->
@@ -45,7 +51,7 @@
 
 <div id="footer">
   {% block footer %}
-  &copy; Copyright 2010 by <a href="http://domain.invalid/">you</a>.
+  &copy; Copyright 2015 by <a href="http://www.lakemedelsplattan.se/">Läkemedelsplattan</a>.
   {% endblock %}
 </div>
 
@@ -77,6 +83,8 @@
     <p>Men alla giltiga idn ska fungera</p>
 
     <p>-----------------------------------------------------------------</p>
+
+</div>
 
 </div>
 

@@ -43,6 +43,7 @@ buttons = {"H": "btn-danger",
 # Variables  ---------------------------------------------
 medArray = []
 drug_list = {}
+super_drug_list = {}
 
 
 # Routes     ---------------------------------------------
@@ -54,6 +55,7 @@ def index():
 #: For search
 @app.route('/search')
 def search():
+    # set up the connection
     url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
     sil = suds.client.Client(url)
     subs = sil.service.getDistributedDrugsByDrugId("20090916000021", False, -1)
@@ -86,19 +88,117 @@ def info(id):
 
 
 #: Our own information page
-@app.route('/med_info/<id>')
-def med_info(id):
-    return render_template("drug_info.html", id=id)
+@app.route('/med_info/<drugId>')
+def med_info(drugId):
+    return render_template("drug_info.html", drugId=drugId, drug_list=drug_list, buttons=buttons, atc_dict=atc_dict)
 
 #: Add medicine from NFC
-@app.route('/med/<brand>')
-def brandInfo(brand):
-    # Make sure we only put in unique ids
-    if medArray.count(brand) == 0:
-        medArray.append(brand)
+@app.route('/med/<nplId>')
+def add_drug(nplId):
 
-    print "medArray: ", medArray
-    return render_template('med_info.html', ids=medArray, len=len(medArray))
+    # # -----------------------------------------------------------------
+    # Make sure we only put in unique ids
+    if medArray.count(nplId) == 0:
+        medArray.append(nplId)
+
+    # # -----------------------------------------------------------------
+    # # set up the connection to SIL
+    url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
+    sil = suds.client.Client(url)
+
+    # # -----------------------------------------------------------------
+    # # Hämta data från SIL
+    superDrug = sil.service.getSuperDrugsByDrugIdList(nplId, False, -1)
+    #superDrugArticles = sil.service.getSuperDrugArticlesByNplPackIdList (medArray, False, -1, "NON_APPROVED")
+    distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(nplId)
+
+    # # -----------------------------------------------------------------
+    # # Sätt in läkemedlet i våran dictionary som skickas till sidan med information.
+    # # key=nlpID --> value=lista med godtyckliga saker [SuperDrug, .. ,etc,]
+    super_drug_list[nplId] = superDrug
+    super_drug_list[nplId].append(distDrugsHistNames)
+
+    # # -----------------------------------------------------------------
+    # # Exempel på hur man kommer åt saker i dictionary
+    #print super_drug_list
+    #print super_drug_list[nplId]
+
+    #Komma åt SuperDrug objeket
+    print "------------------------"
+    print super_drug_list[nplId][0]
+
+    #Komma åt saker i SuperDrug objeket t.ex. atc-koder
+    print "------------------------"
+    print super_drug_list[nplId][0]['atcs'][0]['atcCode']
+
+    #Komma åt saker i SuperDrug objeket t.ex. DistributedDrug --> tradeName
+    print "------------------------"
+    print super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName']
+
+    #Komma åt saker i SuperDrug objeket t.ex. Drug --> substanceGroupId
+    print "------------------------"
+    print super_drug_list[nplId][0]['drug']['substanceGroupId']
+
+    #Komma åt andra saker med samma nlpdId utanför SuperDrug objektet t.ex. distDrugsHistNames
+    print "------------------------"
+    print super_drug_list[nplId][1]
+
+
+    # # -----------------------------------------------------------------
+    # # Exempel på olika förfrågningar till SIL-online utöver SuperDrug objeket som kan göras
+
+    #substance = sil.service.getSubstancesByNplSubstanceIdList(medArray)
+    substance = sil.service.getSubstancesByNplSubstanceIdList (["IDE4POEWUAJJEVERT1", "IDE4POEIUA926VERT1"])
+    distDrugContent = sil.service.getDistributedDrugContentsByNplIdList(medArray)
+    distDrugContentFilt = sil.service.getDistributedDrugContentsByNplIdListFiltered(medArray)
+    allSubstanceGroup = sil.service.getSubstanceGroups ()
+    substanceGroup = sil.service.getSubstanceGroupBySubstanceGroupId("70")
+    superDrugArticles = sil.service.getSuperDrugArticlesByNplPackIdList (medArray, False, -1, "NON_APPROVED")
+
+    # # -----------------------------------------------------------------
+    # # Tillhörande printar
+
+    #print superDrugArticles
+    #print substanceGroup
+    #print substance
+    #print allSubstanceGroup
+    #print distDrugContent
+    #print distDrugContentFilt
+    #print drug_list
+
+    # få alla biverkningar
+    biverkningar = sil.service.getSideEffectsByNplIdList (medArray, "", "")
+    #print biverkningar
+
+
+    # -----------------------------------------------------------------
+    # Första sättet att sätta ihop en lista --> SKA TAS BORT
+    #parse diffrent objects from SIL
+    distDrugs = sil.service.getDistributedDrugsByDrugId(nplId, False, -1)
+    atcCode = sil.service.getAtcsByDrugId(nplId)
+    distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(nplId)
+    drug = sil.service.getDrugByDrugId(nplId, False, -1)
+
+    # Add the Sil-object to the drug_list dictionary --> SKA TAS BORT
+    drug_list[nplId] = distDrugs
+    drug_list[nplId].append(atcCode[0])
+    drug_list[nplId].append(distDrugsHistNames)
+    drug_list[nplId].append(drug)
+
+    # Debug prints --> SKA TAS BORT
+    #print type(drug_list[drugId])
+    #print drug_list[drugId][1]['atcCode'][0]  # forsta bokstaven for atc
+    #print drug_list[drugId][2] #lista over historiska namn
+    #print drug_list[drugId][3]        # skriv ut hela drug objektet
+    #print drug_list[drugId][3]['substanceGroupName'] # vilken substans
+    #print drug
+
+    #print atc_dict[drug_list[drugId][1]['atcCode'][0]]
+    #print drug_list[drugId]['salesstoppedFlag']
+    #print atcCode[0]
+
+
+    return render_template('med_info.html', nplId_list=medArray, len=len(medArray))
 
 #: ???
 @app.route('/navbarInfo')
@@ -111,7 +211,7 @@ def navbarInfo():
         name = subs[0]['tradeName']
         dict[name] = med
 
-    print dict
+    #print dict
     return jsonify(dict)
 
 
@@ -132,59 +232,7 @@ def clearAllIds():
 #: The horizontal view
 @app.route('/card')
 def card_view():
-    # set up the connection
-    url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
-    sil = suds.client.Client(url)
 
-    #drug_list is a dictionary key=drugId aka nlpdID --> value= information about a object
-    # [0] - DistributedDrugs Object
-    # [1] - atcsCode Object
-
-    # add some test object to the list
-    medArray.append('20090916000021')
-    medArray.append('19590602000075')
-    medArray.append('19670825000035')
-    medArray.append('19581231000017')
-    medArray.append('19970619000075')
-
-    if not medArray:
-        print "medArray is empty"
-    else:
-        for drugId in medArray:
-            #bättre med anropet??
-            #superDrug = sil.service.GetSuperDrugsByDrugIdList (drugId, False, -1)
-
-            #parse diffrent objects from SIL
-            distDrugs = sil.service.getDistributedDrugsByDrugId(drugId, False, -1)
-            atcCode = sil.service.getAtcsByDrugId(drugId)
-            distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(drugId)
-            drug = sil.service.getDrugByDrugId(drugId, False, -1)
-
-
-            #print distDrugsHistNames
-
-
-            # Add the Sil-object to the drug_list dictionary
-            drug_list[drugId] = distDrugs
-            drug_list[drugId].append(atcCode[0])
-            drug_list[drugId].append(distDrugsHistNames)
-            drug_list[drugId].append(drug)
-
-            # Debug prints
-            #print type(drug_list[drugId])
-            print drug_list[drugId][1]['atcCode'][0]  # forsta bokstaven for atc
-            #print drug_list[drugId][2] #lista over historiska namn
-            #print drug_list[drugId][3]        # skriv ut hela drug objektet
-            #print drug_list[drugId][3]['substanceGroupName'] # vilken substans
-
-            #print drug
-
-    #print drug_list
-
-    print atc_dict[drug_list[drugId][1]['atcCode'][0]]
-
-    #print drug_list[drugId]['salesstoppedFlag']
-    #print atcCode[0]
 
     return render_template('card_view.html', ids=medArray, drug_list=drug_list, buttons=buttons, atc_dict=atc_dict)
 
@@ -207,6 +255,59 @@ def index2():
 @app.route('/test')
 def test():
     return render_template("child.html")
+
+@app.route('/test2')
+def test2():
+    return render_template("test2.html")
+
+
+def add_some_meds():
+
+    # set up the connection
+    url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
+    sil = suds.client.Client(url)
+
+    #drug_list is a dictionary key=drugId aka nlpdID --> value= information about a object
+    # [0] - DistributedDrugs Object
+    # [1] - atcsCode Object
+
+    # # add some test object to the list
+    # medArray.append('20090916000021')
+    # medArray.append('19590602000075')
+    # medArray.append('19670825000035')
+    # medArray.append('19581231000017')
+    # medArray.append('19970619000075')
+
+    if not medArray:
+        print "medArray is empty"
+    else:
+        for drugId in medArray:
+            #bättre med anropet??
+            superDrug = sil.service.getSuperDrugsByDrugIdList(drugId, False, -1)
+
+            #parse diffrent objects from SIL
+            distDrugs = sil.service.getDistributedDrugsByDrugId(drugId, False, -1)
+            atcCode = sil.service.getAtcsByDrugId(drugId)
+            distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(drugId)
+            drug = sil.service.getDrugByDrugId(drugId, False, -1)
+
+            #print distDrugsHistNames
+
+            # Add the Sil-object to the drug_list dictionary
+            drug_list[drugId] = distDrugs
+            drug_list[drugId].append(atcCode[0])
+            drug_list[drugId].append(distDrugsHistNames)
+            drug_list[drugId].append(drug)
+
+            # Debug prints
+            #print type(drug_list[drugId])
+            #print drug_list[drugId][1]['atcCode'][0]  # forsta bokstaven for atc
+            #print drug_list[drugId][2] #lista over historiska namn
+            #print drug_list[drugId][3]        # skriv ut hela drug objektet
+            #print drug_list[drugId][3]['substanceGroupName'] # vilken substans
+            #print drug
+
+            #print superDrug
 
 
 
