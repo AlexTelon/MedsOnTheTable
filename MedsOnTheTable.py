@@ -42,8 +42,10 @@ buttons = {"H": "btn-danger",
 
 # Variables  ---------------------------------------------
 medArray = []
-drug_list = {}
-super_drug_list = {}
+drug_list = {}                  # Gamla sättet att göra förfrågningar till SIL --> ska tas bort
+super_drug_list = {}            # Dictionaryn som all information samlar i och som skickas till olika sidor.
+
+
 
 
 # Routes     ---------------------------------------------
@@ -88,14 +90,15 @@ def info(id):
 
 
 #: Our own information page
-@app.route('/med_info/<drugId>')
-def med_info(drugId):
-    return render_template("drug_info.html", drugId=drugId, drug_list=drug_list, buttons=buttons, atc_dict=atc_dict)
+@app.route('/med_info/<nplId>')
+def med_info(nplId):
+    return render_template("drug_info.html", nplId=nplId, super_drug_list=super_drug_list, buttons=buttons, atc_dict=atc_dict)
 
 #: Add medicine from NFC
 @app.route('/med/<nplId>')
 def add_drug(nplId):
 
+    print 'hello'
     # # -----------------------------------------------------------------
     # Make sure we only put in unique ids
     if medArray.count(nplId) == 0:
@@ -110,13 +113,48 @@ def add_drug(nplId):
     # # Hämta data från SIL
     superDrug = sil.service.getSuperDrugsByDrugIdList(nplId, False, -1)
     #superDrugArticles = sil.service.getSuperDrugArticlesByNplPackIdList (medArray, False, -1, "NON_APPROVED")
+
     distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(nplId)
+
+    # Var försiktig här --> kan vara ej utbytbar
+    if superDrug[0]['drug']['interchangeableFlag'] == "Y":
+        drugsBySubstance = sil.service.getDrugsBySubstanceGroupId(superDrug[0]['drug']['substanceGroupId'], False, -1)   # tar lång tid for vissa läkemedel
+    else:
+        drugsBySubstance = 0
+
+    drugArticles = sil.service.getDrugArticlesByNplId(nplId)
+
+
+    #print drugArticles
+    substance = sil.service.getSubstancesBySubstanceName("Diklofenak%")
+    #print substance
+
+    print drugsBySubstance
+    # # -----------------------------------------------------------------
+    # # Konfigurering innan insättning
+
+    interchangeableDrugs = []       # Lista med utbytbara läkemedel --> baserat på samma substans och stryka
+
+    if drugsBySubstance != 0:
+        for drug in drugsBySubstance:
+            #print drug['strengthGroupId']
+            if drug['strengthGroupId'] == superDrug[0]['drug']['strengthGroupId']:           # Kolla så de har samma stryke grupp.
+                if drug['interchangeableFlag'] == 'Y':                                       # Kolla så de är utbytbara
+                    #if not drug['tradeName'] in interchangeableDrugs:                       # Kolla så inte samma namn läggs till två gång troligen reduntdant
+                    print drug['tradeName']
+                    interchangeableDrugs.append(drug['tradeName'])
+    else:
+        interchangeableDrugs.append("Ej utbytbar")
+
+    print interchangeableDrugs
 
     # # -----------------------------------------------------------------
     # # Sätt in läkemedlet i våran dictionary som skickas till sidan med information.
     # # key=nlpID --> value=lista med godtyckliga saker [SuperDrug, .. ,etc,]
-    super_drug_list[nplId] = superDrug
-    super_drug_list[nplId].append(distDrugsHistNames)
+    super_drug_list[nplId] = superDrug                                      # [0] - SuperDrug objekt --> innehåller ATC, distDrug och Drug object
+    super_drug_list[nplId].append(distDrugsHistNames)                       # [1] - Lista med de historiska namnen
+    super_drug_list[nplId].append(drugsBySubstance)                         # [2] -
+    super_drug_list[nplId].append(interchangeableDrugs)                     # [3] - Lista med de utbytbara medicinerna
 
     # # -----------------------------------------------------------------
     # # Exempel på hur man kommer åt saker i dictionary
@@ -125,30 +163,38 @@ def add_drug(nplId):
 
     #Komma åt SuperDrug objeket
     print "------------------------"
-    print super_drug_list[nplId][0]
+    #print super_drug_list[nplId][0]
 
     #Komma åt saker i SuperDrug objeket t.ex. atc-koder
     print "------------------------"
-    print super_drug_list[nplId][0]['atcs'][0]['atcCode']
+    #print super_drug_list[nplId][0]['atcs'][0]['atcCode']
 
     #Komma åt saker i SuperDrug objeket t.ex. DistributedDrug --> tradeName
     print "------------------------"
-    print super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName']
+    #print super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName']
 
     #Komma åt saker i SuperDrug objeket t.ex. Drug --> substanceGroupId
     print "------------------------"
-    print super_drug_list[nplId][0]['drug']['substanceGroupId']
+    #print super_drug_list[nplId][0]['drug']['substanceGroupId']
 
     #Komma åt andra saker med samma nlpdId utanför SuperDrug objektet t.ex. distDrugsHistNames
     print "------------------------"
-    print super_drug_list[nplId][1]
+    #print super_drug_list[nplId][1]
+
+    #Komma åt andra saker med samma nlpdId utanför SuperDrug objektet t.ex. drugsBySubstance
+    print "------------------------"
+    #print type(super_drug_list[nplId][2])               #lista med drug objekt
+
+
+
+
 
 
     # # -----------------------------------------------------------------
     # # Exempel på olika förfrågningar till SIL-online utöver SuperDrug objeket som kan göras
 
     #substance = sil.service.getSubstancesByNplSubstanceIdList(medArray)
-    substance = sil.service.getSubstancesByNplSubstanceIdList (["IDE4POEWUAJJEVERT1", "IDE4POEIUA926VERT1"])
+    #substance = sil.service.getSubstancesByNplSubstanceIdList (["IDE4POEWUAJJEVERT1", "IDE4POEIUA926VERT1"])
     distDrugContent = sil.service.getDistributedDrugContentsByNplIdList(medArray)
     distDrugContentFilt = sil.service.getDistributedDrugContentsByNplIdListFiltered(medArray)
     allSubstanceGroup = sil.service.getSubstanceGroups ()
@@ -233,8 +279,7 @@ def clearAllIds():
 @app.route('/card')
 def card_view():
 
-
-    return render_template('card_view.html', ids=medArray, drug_list=drug_list, buttons=buttons, atc_dict=atc_dict)
+    return render_template('card_view.html', ids=medArray, super_drug_list=super_drug_list, buttons=buttons, atc_dict=atc_dict)
 
 
 # Some test routes (can be removed) ---------------------------------------------

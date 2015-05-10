@@ -67,58 +67,69 @@
 
 <!-- Create a loop through the list -->
 
-{% for drugId in ids %}
-    <script>console.log(id)</script>
+{% for nplId in ids %}
+
     <div class="col-xs-3 col-md-3" >
     <div class="panel panel-default">
-        <div class="panel-heading panel-{{ drug_list[drugId][1]['atcCode'][0] }}">
+        <div class="panel-heading panel-{{ super_drug_list[nplId][0]['atcs'][0]['atcCode'][0] }}">
+
             <h3 class="panel-title">
                 <!-- Vilket organ det verkar mot -->
-                {{ atc_dict[drug_list[drugId][1]['atcCode'][0]] }}
+                {{ atc_dict[super_drug_list[nplId][0]['atcs'][0]['atcCode'][0]] }}
             </h3>
         </div>
         <div class="panel-body">
             <div class="the-price">
                 <h1>
-                    <span class="subscript">{{ drug_list[drugId][0]['tradeName'] }}</span>
+                    <span class="subscript">{{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] }}</span>
                 </h1>
-                <small><em>{{ drug_list[drugId][0]['drugFormTextSv'] }}</em></small>
+                <small><em>{{ super_drug_list[nplId][0]['distributedDrugs'][0]['drugFormTextSv'] }}</em></small>
             </div>
             <table class="table">
                 <tr>
                     <td>
-                        {{ drug_list[drugId][3]['substanceGroupName'] }}<span class="badge">4</span>
+                        {{ super_drug_list[nplId][0]['drug']['substanceGroupName'] }}<span class="badge">4</span>
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                         {{ drug_list[drugId][0]['strengthText'] }}
+                         {{ super_drug_list[nplId][0]['distributedDrugs'][0]['strengthText'] }}
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{ drug_list[drugId][1]['atcCode'] }}
+                        {{ super_drug_list[nplId][0]['distributedDrugs'][0]['containsLactosFlag'] }}
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        <a href="#" class="btn btn-sm {{ buttons[drug_list[drugId][0]['silPregnancyCode']] }}" role="button">Graviditet</a>
+                        <a href="#" class="btn btn-sm {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silPregnancyCode']] }}" role="button">Graviditet</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="#" class="btn btn-sm {{ buttons[drug_list[drugId][0]['silLactationCode']] }}" role="button">Amning</a>
+                        <a href="#" class="btn btn-sm {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silLactationCode']] }}" role="button">Amning</a>
                     </td>
                 </tr>
                 <tr class="active">
                     <td>
-                        <a href="#" class="btn btn-sm {{ buttons[drug_list[drugId][0]['silLactationCode']] }}" role="button">Doping</a>
+                        <a href="#" class="btn btn-sm {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silLactationCode']] }}" role="button">Doping - Fel</a>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <!-- print historiska namn -->
-                        {% for names in drug_list[drugId][2] %}
+                        {% for names in super_drug_list[nplId][1] %}
+                            <p> {{ names }} </p>
+                        {% endfor %}
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <!-- print utbytbara läkemedel -->
+                        {% for names in super_drug_list[nplId][3] %}
                             <p> {{ names }} </p>
                         {% endfor %}
 
@@ -365,11 +376,7 @@
     </div>
 </div>
 
-
-
 </div> <!-- row -->
-
-
 
 </div> <!-- container -->
 <!-- </body> -->

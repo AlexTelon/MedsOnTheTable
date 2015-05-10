@@ -23,9 +23,9 @@
 
 <div class="col-lg-12">
     <div class="panel panel-default" id="content-formatting">
-        <div class="panel-heading panel-{{ drug_list[drugId][1]['atcCode'][0] }}">
+        <div class="panel-heading panel-{{ super_drug_list[nplId][0]['atcs'][0]['atcCode'][0] }}">
             <!-- Vilket organ det verkar mot -->
-            {{ atc_dict[drug_list[drugId][1]['atcCode'][0]] }}
+            {{ atc_dict[super_drug_list[nplId][0]['atcs'][0]['atcCode'][0]] }}
         </div>
 
         <div class="media">
@@ -59,7 +59,10 @@
 
 
         <p class="lead">Vilka andra läkemedelsvaror innehåller samma substans?: </p>
-
+         <!-- print utbytbara läkemedel -->
+        {% for names in super_drug_list[nplId][3] %}
+            <p> {{ names }} </p>
+        {% endfor %}
         <p class="lead">Vilka andra substanser har likartad verkan? </p>
 
         <p class="lead">Vad kostar andra alternativ? </p>
