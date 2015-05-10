@@ -64,10 +64,35 @@
             <p> {{ names }} </p>
         {% endfor %}
         <p class="lead">Vilka andra substanser har likartad verkan? </p>
-
+         <!-- print liknande substanser -->
+        {% for names in super_drug_list[nplId][5] %}
+            <p> {{ names }} </p>
+        {% endfor %}
         <p class="lead">Vad kostar andra alternativ? </p>
 
+            {% for storlek, pris in super_drug_list[nplId][7].iteritems() %}
+                <p> En förpackning med <strong>{{ storlek }} </strong> kostar: {{ pris }} kr </p>
+            {% endfor %}
+
+
+
         <p class="lead">Biverkningar? </p>
+
+        <!-- print liknande substanser -->
+
+        {% if "0" in super_drug_list[nplId][6].keys() %}
+
+        <p> Det finns inga kända biverkningar för läkemedlet </p>
+        {% else %}
+
+            {% for key, value in super_drug_list[nplId][6].iteritems() %}
+                <p> <strong>{{ key }} </strong> </p>
+                {% for names in  value%}
+                <p> {{ names }} </p>
+            {% endfor %}
+            {% endfor %}
+
+            {% endif %}
 
         <p class="lead">Graviditet och amning?</p>
 
@@ -76,8 +101,14 @@
         <p class="text-muted">Särskilda anvisningar?</p>
 
 
+        <!-- Viktigt från 1177 -->
         <p>
-            <small>This is text in a <code>small</code> wrapper. <abbr title="No Big Deal">NBD</abbr>, right?</small>
+            <p class="lead">Vikigt</p>
+Man får inte mer smärtlindring genom att ta en större dos än vad som står på förpackningen eller vad läkaren ordinerat. Om man tar en större dos än rekommenderat finns risk för att man kan få en allvarlig leverskada. Därför ska man inte heller ta Alvedon tillsammans med andra läkemedel som innehåller paracetamol, eftersom den sammanlagda dosen paracetamol kan bli för hög. Man ska kontakta läkare direkt om man har tagit för hög dos eftersom leverskadan märks först efter ett par dagar.
+
+Om man missbrukar alkohol ökar risken för leverskada. Om man har alkoholproblem ska man inte använda läkemedel som innehåller paracetamol utan att först ha rådgjort med läkare.
+
+Berusningseffekten av alkohol ökar inte genom att man tar paracetamol samtidigt.
         </p>
 
 

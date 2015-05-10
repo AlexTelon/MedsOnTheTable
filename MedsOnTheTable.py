@@ -112,27 +112,56 @@ def add_drug(nplId):
     # # -----------------------------------------------------------------
     # # Hämta data från SIL
     superDrug = sil.service.getSuperDrugsByDrugIdList(nplId, False, -1)
+    distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(nplId)
     #superDrugArticles = sil.service.getSuperDrugArticlesByNplPackIdList (medArray, False, -1, "NON_APPROVED")
 
-    distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(nplId)
-
+    # Utbytbara läkemedel efter substansgrupp
     # Var försiktig här --> kan vara ej utbytbar
     if superDrug[0]['drug']['interchangeableFlag'] == "Y":
         drugsBySubstance = sil.service.getDrugsBySubstanceGroupId(superDrug[0]['drug']['substanceGroupId'], False, -1)   # tar lång tid for vissa läkemedel
     else:
         drugsBySubstance = 0
 
+    # Lista med dug objekt. Liknande läkemedel efter ATC-kod
+    drugsByAtcCode = sil.service.getDrugsByAtcCode(superDrug[0]['atcs'][0]['atcCode'], False, -1)
+
+    # få alla biverkningar
+
+    drugId_in_list = []
+    drugId_in_list.append(str(superDrug[0]['drug']['drugId']))
+    #drugId_in_list.append("19590602000075")
+    biverkningar = sil.service.getSideEffectsByNplIdList(drugId_in_list, "", "")
+    #biverkningar = sil.service.getSideEffectsByNplIdList(["19590602000075"], "", "")
+    #print biverkningar
+
+
+
+
+
     drugArticles = sil.service.getDrugArticlesByNplId(nplId)
 
+    print drugArticles
 
-    #print drugArticles
+    size_and_price = {}
+
+    for drugArt in drugArticles:
+
+        size_and_price[drugArt['packSizeText']] = drugArt['aup']
+        print drugArt['nplId']
+        print drugArt['aup']
+        print drugArt['drugId']
+        print drugArt['distributedTradeName']
+        print '--'
+
+    print size_and_price
     substance = sil.service.getSubstancesBySubstanceName("Diklofenak%")
     #print substance
 
-    print drugsBySubstance
+
     # # -----------------------------------------------------------------
     # # Konfigurering innan insättning
 
+    # Lägg till de utbytbara medicinerna i en lista
     interchangeableDrugs = []       # Lista med utbytbara läkemedel --> baserat på samma substans och stryka
 
     if drugsBySubstance != 0:
@@ -141,12 +170,50 @@ def add_drug(nplId):
             if drug['strengthGroupId'] == superDrug[0]['drug']['strengthGroupId']:           # Kolla så de har samma stryke grupp.
                 if drug['interchangeableFlag'] == 'Y':                                       # Kolla så de är utbytbara
                     #if not drug['tradeName'] in interchangeableDrugs:                       # Kolla så inte samma namn läggs till två gång troligen reduntdant
-                    print drug['tradeName']
+                    #print drug['tradeName']
                     interchangeableDrugs.append(drug['tradeName'])
     else:
         interchangeableDrugs.append("Ej utbytbar")
 
-    print interchangeableDrugs
+
+    # Lägg till de liknande medicinerna i en lista
+    similarDrugs = []       # Lista med liknande läkemedel --> baserat på ATC-kod
+    similarSubstance = []       # Lista med liknande Substans --> baserat på ATC-kod
+
+    for drug in drugsByAtcCode:
+        #if drug['strengthGroupId'] == superDrug[0]['drug']['strengthGroupId']:           # Kolla så de har samma stryke grupp.
+            #if drug['interchangeableFlag'] == 'Y':                                       # Kolla så de är utbytbara
+            if not drug['tradeName'] in similarDrugs:                       # Kolla så inte samma namn läggs till två gång troligen reduntdant
+                #print drug['tradeName']
+                similarDrugs.append(drug['tradeName'])
+                if not drug['substanceGroupName'] in similarSubstance:
+                    if not drug['substanceGroupName'] == 'Ospecificerad':
+                        similarSubstance.append(drug['substanceGroupName'])
+
+    #print similarDrugs
+    #print similarSubstance
+
+
+    biverkningar_efter_klass = {}
+    # kolla om den är tom
+    if not biverkningar:
+        biverkningar_efter_klass["0"] = "Läkemedlet har inga biverkningar"
+    else:
+        for symtom in biverkningar[0]['sideEffects']:
+            if symtom['frequency'] in biverkningar_efter_klass:
+                # append the new number to the existing array at this slot
+                #years_dict[line[0]].append(line[1])
+                biverkningar_efter_klass[symtom['frequency']].append(symtom['symptom'])
+            else:
+                # create a new array in this slot
+                # years_dict[line[0]] = [line[1]]
+                biverkningar_efter_klass[symtom['frequency']] = [symtom['symptom']]
+
+
+    #print biverkningar[0]['sideEffects'] #lista med symtom
+
+    #print biverkningar[0]['sideEffects']['frequency']
+    #print biverkningar_efter_klass
 
     # # -----------------------------------------------------------------
     # # Sätt in läkemedlet i våran dictionary som skickas till sidan med information.
@@ -155,6 +222,10 @@ def add_drug(nplId):
     super_drug_list[nplId].append(distDrugsHistNames)                       # [1] - Lista med de historiska namnen
     super_drug_list[nplId].append(drugsBySubstance)                         # [2] -
     super_drug_list[nplId].append(interchangeableDrugs)                     # [3] - Lista med de utbytbara medicinerna
+    super_drug_list[nplId].append(similarDrugs)                             # [4] - Lista med de liknanade medicinerna
+    super_drug_list[nplId].append(similarSubstance)                         # [5] - Lista med de liknanade substanserna
+    super_drug_list[nplId].append(biverkningar_efter_klass)                 # [6] - Dict med biverkningar key=frekvens -> value=lista över symtom
+    super_drug_list[nplId].append(size_and_price)                           # [7] - Dict med pris. key=storlek -> value=pris
 
     # # -----------------------------------------------------------------
     # # Exempel på hur man kommer åt saker i dictionary
@@ -185,6 +256,28 @@ def add_drug(nplId):
     print "------------------------"
     #print type(super_drug_list[nplId][2])               #lista med drug objekt
 
+    #Komma åt andra saker med samma nlpdId utanför SuperDrug objektet t.ex. biverkningar_efter_klass
+    print "------------------------"
+    # print super_drug_list[nplId][6]
+    #
+    # for key, value in super_drug_list[nplId][6].iteritems():
+    #     print key
+    #     for v in value:
+    #         print v
+
+    #Komma åt andra saker med samma nlpdId utanför SuperDrug objektet t.ex. biverkningar_efter_klass
+    print "------------------------"
+    print super_drug_list[nplId][7]
+    #
+    # for key, value in super_drug_list[nplId][7].iteritems():
+    #     print key
+    #     print v
+    #
+
+
+
+
+
 
 
 
@@ -212,9 +305,7 @@ def add_drug(nplId):
     #print distDrugContentFilt
     #print drug_list
 
-    # få alla biverkningar
-    biverkningar = sil.service.getSideEffectsByNplIdList (medArray, "", "")
-    #print biverkningar
+
 
 
     # -----------------------------------------------------------------

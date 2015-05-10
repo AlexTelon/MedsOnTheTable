@@ -1,0 +1,71 @@
+[(SuperDrug){
+   atcs[] = 
+      (Atc){
+         atcCode = "N02AA59"
+         lev = 5
+         textSv = "Kodein, kombinationer exkl. neuroleptika"
+      },
+   distributedDrugs[] = 
+      (DistributedDrug){
+         approvalDate = "2011-02-18"
+         containsLactosFlag = "N"
+         containsLatexFlag = "N"
+         dosdispFlag = "N"
+         dosdispLife = 0
+         dosdispLifeUnit = "Månader"
+         drugFormCode = "TABLET"
+         drugFormTextSv = "Tablett"
+         drugId = "20090916000021"
+         exportedFromCountryCode = "-"
+         hasAntiRecommendedArticle = False
+         hasRecommendedArticle = True
+         interchangeableFlag = "Y"
+         localRepresentative = None
+         marketedFlag = "Y"
+         marketedFromDate = None
+         marketingAuthHolder = "Evolan Pharma AB"
+         nplId = "20090916000021"
+         parallelImportDeviation = None
+         parimpOriginalId = "20090916000021"
+         productNoteInd = None
+         salesstoppedFlag = "N"
+         silLactationCode = "H"
+         silPregnancyCode = "M"
+         strengthNumeric = 0.0
+         strengthNumericUnit = "Ospecificerad"
+         strengthText = "500 mg/30 mg"
+         tradeName = "Paracetamol/Kodein Evolan"
+         withdrawalDate = None
+      },
+   drug = 
+      (Drug){
+         controlClassCode = "3"
+         drugClassificationCode = "2"
+         drugFormCode = "TABLET"
+         drugFormTextSv = "Tablett"
+         drugId = "20090916000021"
+         hasAntiRecommendedArticle = False
+         hasRecommendedArticle = True
+         interactionStatus = 1
+         interchangeableFlag = "Y"
+         pharmaceuticalFormGroupId = 79
+         pharmaceuticalFormGroupName = "Tablett"
+         prescriberCodes[] = 
+            "1",
+            "2",
+            "3",
+         prescriptionCode = "1"
+         productTypeCode = "MEP"
+         routeOfAdministrationCodes[] = 
+            "-",
+         strengthGroupId = 140
+         strengthGroupName = "500 mg/30 mg"
+         strengthNumeric = 0.0
+         strengthNumericUnit = "Ospecificerad"
+         strengthText = "500 mg/30 mg"
+         substanceGroupId = 70
+         substanceGroupName = "Paracetamol + kodein"
+         tradeName = "Paracetamol/Kodein Evolan"
+         withdrawalDate = None
+      }
+ }]
