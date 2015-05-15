@@ -5,10 +5,13 @@
     <title></title>
 
     <link rel="stylesheet" type="text/css" href="../static/bootstrap-3.3.4-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" media="screen"  href="../static/bootstrap-3.3.4-dist/css/jasny-bootstrap.min.css" >
 
     <!-- Color for ATC-code -->
     <link rel="stylesheet" type="text/css" href="../static/color.css">
 
+
+    <!-- Javascript  -->
     <script src="../static/bootstrap-3.3.4-dist/js/jquery-2.1.3.min.js"></script>
     <script src="../static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../static/bootstrap-3.3.4-dist/lib/holderjs/holder.js"></script>
@@ -31,15 +34,16 @@
         <div class="media">
             <div class="pull-right">
                 <a href="#">
-                    <img class="media-object" data-src="holder.js/300x300/sky" alt="">
+                    <img class="media-object" data-src="holder.js/200x200/sky" alt="">
                 </a>
             </div>
             <div class="media-body">
-                <h4 class="media-heading">Alvedon</h4>
+
+                <h2 class="media-heading"><span class="subscript">{{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] }}</span></h2>
                 <table class="table">
                     <tr>
                         <td>Substans: </td>
-                        <td>200</td>
+                        <td>{{ super_drug_list[nplId][0]['drug']['substanceGroupName'] }}</td>
                     </tr>
                     <tr>
                         <td>Pris:</td>
@@ -74,7 +78,8 @@
                 <p> En förpackning med <strong>{{ storlek }} </strong> kostar: {{ pris }} kr </p>
             {% endfor %}
 
-
+        <!-- Success button with label -->
+        <button type="button" class="btn btn-labeled btn-success"><span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Success</button>
 
         <p class="lead">Biverkningar? </p>
 
