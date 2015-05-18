@@ -349,7 +349,7 @@ def add_drug(nplId):
 
 
 
-    return render_template('med_info.html', nplId_list=medArray, len=len(medArray))
+    return render_template('layout.html', nplId_list=medArray, len=len(medArray))
 
 
 #: Returns the current medicines that are to be shown in the navbar. Called from javascript in info.html
