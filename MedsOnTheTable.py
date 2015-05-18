@@ -68,7 +68,7 @@ def index():
     return render_template("layout.html")
 
 
-#: For search
+# : For search
 @app.route('/search')
 def search():
     # set up the connection
@@ -79,11 +79,7 @@ def search():
 
     #subs = sil.service.getSubstancesBySubstanceName ("Kodein%")
     #subs = sil.service.getDistributedDrugsByDistributedDrugTradeName ("Citodon", False, -1)
-    #subs = sil.service.getDrugsByAtcCode ("N02AA59", False, -1)
-    #subs = sil.service.getSILPregnancyLactationWarningsByNplIdList("20090916000021")
-    #subs = sil.service.getSuperDrugsByDistributedDrugTradeName("Aspirin", False, -1)
-    #return subs[0]['text']
-    #print subs[0]['tradeName']
+
     return render_template("test.html", info=subs)
 
 
@@ -97,7 +93,6 @@ def info(id):
 
 
 # ATC is about what kind of medecine we are talking about, Different groups like blood and nervous system.
-
 # How we get stuff from a ddrug ddrug[0]['nplId'].
 
 # subs = sil.service.getDrugArticlesByDrugId ("20090916000021", False, -1) Gives information about different packages
@@ -284,79 +279,6 @@ def add_drug(nplId):
     super_drug_list[nplId].append(size_and_price)  # [7] - Dict med pris. key=storlek -> value=pris
     super_drug_list[nplId].append(trade_name_length)  # [8] - String. length of the trade name (can be removed)
 
-    # # -----------------------------------------------------------------
-    # # Exempel på hur man kommer åt saker i dictionary
-    #print super_drug_list
-    #print super_drug_list[nplId]
-
-    #Komma åt SuperDrug objeket
-    print "------------------------"
-    #print super_drug_list[nplId][0]
-
-    #Komma åt saker i SuperDrug objeket t.ex. atc-koder
-    print "------------------------"
-    #print super_drug_list[nplId][0]['atcs'][0]['atcCode']
-
-    #Komma åt saker i SuperDrug objeket t.ex. DistributedDrug --> tradeName
-    print "------------------------"
-    #print super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName']
-
-    #Komma åt saker i SuperDrug objeket t.ex. Drug --> substanceGroupId
-    print "------------------------"
-    #print super_drug_list[nplId][0]['drug']['substanceGroupId']
-
-    #Komma åt andra saker med samma nlpdId utanför SuperDrug objektet t.ex. distDrugsHistNames
-    print "------------------------"
-    #print super_drug_list[nplId][1]
-
-    #Komma åt andra saker med samma nlpdId utanför SuperDrug objektet t.ex. drugsBySubstance
-    print "------------------------"
-    #print type(super_drug_list[nplId][2])               #lista med drug objekt
-
-    #Komma åt andra saker med samma nlpdId utanför SuperDrug objektet t.ex. biverkningar_efter_klass
-    print "------------------------"
-    # print super_drug_list[nplId][6]
-    #
-    # for key, value in super_drug_list[nplId][6].iteritems():
-    #     print key
-    #     for v in value:
-    #         print v
-
-    #Komma åt andra saker med samma nlpdId utanför SuperDrug objektet t.ex. biverkningar_efter_klass
-    #print "------------------------"
-    #print super_drug_list[nplId][7]
-    #
-    # for key, value in super_drug_list[nplId][7].iteritems():
-    #     print key
-    #     print v
-    #
-
-
-
-    # # -----------------------------------------------------------------
-    # # Exempel på olika förfrågningar till SIL-online utöver SuperDrug objeket som kan göras
-
-    #substance = sil.service.getSubstancesByNplSubstanceIdList(medArray)
-    #substance = sil.service.getSubstancesByNplSubstanceIdList (["IDE4POEWUAJJEVERT1", "IDE4POEIUA926VERT1"])
-    distDrugContent = sil.service.getDistributedDrugContentsByNplIdList(medArray)
-    distDrugContentFilt = sil.service.getDistributedDrugContentsByNplIdListFiltered(medArray)
-    allSubstanceGroup = sil.service.getSubstanceGroups()
-    substanceGroup = sil.service.getSubstanceGroupBySubstanceGroupId("70")
-    superDrugArticles = sil.service.getSuperDrugArticlesByNplPackIdList(medArray, False, -1, "NON_APPROVED")
-
-    # # -----------------------------------------------------------------
-    # # Tillhörande printar
-
-    #print superDrugArticles
-    #print substanceGroup
-    #print substance
-    #print allSubstanceGroup
-    #print distDrugContent
-    #print distDrugContentFilt
-    #print drug_list
-
-
-
     return render_template('layout.html', nplId_list=medArray, len=len(medArray))
 
 
@@ -420,9 +342,6 @@ def drug_info():
 @app.route('/test')
 def test():
     return render_template("test.html")
-
-
-
 
 
 if __name__ == '__main__':
