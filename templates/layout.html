@@ -101,25 +101,27 @@
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>#}
 
 <script>
-    $.ajax({
-        url: "/navbarInfo",
-        context: document.body
-    }).done(function (result) {
-        //console.log("this is the result: ", result)
-        // Skapa en flik per medecin
-        for (var med in result) {
-            //console.log("name: ", med);
-            //console.log("id: ", result[med]);
-            url = "/info/" + parseInt(result[med]);
-            //console.log("url: ", url);
-            // skapa en #<id> path
-            path = "#" + result[med];
-            $('<li><a href=' + path + " data-toggle=\"tab\">" + med + '</a></li>').appendTo('#tabs');
-        }
-    });
+       $(document).ready(function () {
+           $.ajax({
+               url: "/navbarInfo",
+               context: document.body
+           }).done(function (result) {
+               console.log("NOW WE ADD TABAS");
+               //console.log("this is the result: ", result)
+               // Skapa en flik per medecin
+               for (var med in result) {
+                   //console.log("name: ", med);
+                   //console.log("id: ", result[med]);
+                   url = "/info/" + parseInt(result[med]);
+                   //console.log("url: ", url);
+                   // skapa en #<id> path
+                   path = "#" + result[med];
+                   $('<li><a href=' + path + " data-toggle=\"tab\">" + med + '</a></li>').appendTo('#tabs');
+               }
+           });
 
-    $(document).ready(function () {
-        $("#tabs").click(function (data) {
+            $("#tabs").click(function (data) {
+            console.log("NOW WE ADD CONTENT");
             hash = data.target.hash; // get the #<id> hash
             id = hash.slice(1); // remove # at the start
             callUrl = "/med_info/" + id; // create url to call
@@ -132,7 +134,8 @@
                 $("#content").html(result);
             });
         });
-    });
+       });
+
 
 </script>
 
