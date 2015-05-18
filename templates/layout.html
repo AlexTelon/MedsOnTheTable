@@ -14,79 +14,78 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
 
 
-
 </head>
 <body>
 
 <div class="container">
 
-{% block navbar %}
-    <!-- Static navbar -->
-    <nav class="navbar navbar-default navbar-static-top">
+    {% block navbar %}
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default navbar-static-top">
 
-        <div class="container">
+            <div class="container">
 
-            <div id="navbar" class="row">
+                <div id="navbar" class="row">
 
-                <!-- Flikar/pills med läkemedel -->
-                <div class="col-md-8 col-xs-8">
-                    <ul class="nav nav-pills" id="tabs"></ul>
-                </div>
-                <div class="col-md-4 col-xs-3">
-                    <!-- Sök och rensa -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a>Sök</a></li>
-                        <li><a href="/clearNavbar">Rensa</a></li>
-                    </ul>
+                    <!-- Flikar/pills med läkemedel -->
+                    <div class="col-md-8 col-xs-8">
+                        <ul class="nav nav-pills" id="tabs"></ul>
+                    </div>
+                    <div class="col-md-4 col-xs-3">
+                        <!-- Sök och rensa -->
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a>Sök</a></li>
+                            <li><a href="/clearNavbar">Rensa</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
-{% endblock %}
-
-
-<div id="content">
-    {% block content %}
-        <p>Du har inte lagt till några läkemedel ännu!</p>
+        </nav>
     {% endblock %}
-</div>
-
-<div id="footer">
-  {% block footer %}
-  &copy; Copyright 2015 by <a href="http://www.lakemedelsplattan.se/">Läkemedelsplattan</a>.
-  {% endblock %}
-</div>
 
 
-{% block body %}
-    <p>Denna text är i block body</p>
-{% endblock %}
+    <div id="content">
+        {% block content %}
+            <p>Du har inte lagt till några läkemedel ännu!</p>
+        {% endblock %}
+    </div>
+
+    <div id="footer">
+        {% block footer %}
+            &copy; Copyright 2015 by <a href="http://www.lakemedelsplattan.se/">Läkemedelsplattan</a>.
+        {% endblock %}
+    </div>
 
 
-<div id="content2">
-    <h1>Viktiga länkar:</h1>
+    {% block body %}
+        <p>Denna text är i block body</p>
+    {% endblock %}
 
-    <p>3.3 Exempel i nedanstående länk är bra för att börja förstår hur de fungerar.</p>
 
-    <p>
-        http://www.inera.se/Documents/TJANSTER_PROJEKT/Svensk_informationsdatabas_for_lakemedel/Teknik/sil-api-specification-4.0.pdf</p>
+    <div id="content2">
+        <h1>Viktiga länkar:</h1>
 
-    <p>-----------------------------------------------------------------</p>
+        <p>3.3 Exempel i nedanstående länk är bra för att börja förstår hur de fungerar.</p>
 
-    <b><p>/search</b> gör inget speciellt just nu</p>
-    <b><p>/info/id</b> öppnar upp en fass sida för den sidan</p>
-    <b><p>/med/id</b> lägger till id till listan av idn vi är intresserade av och kommer lista alla ids</p>
-    <p><b>/clearallids</b> tar bort alla ids vi har sparat</p>
+        <p>
+            http://www.inera.se/Documents/TJANSTER_PROJEKT/Svensk_informationsdatabas_for_lakemedel/Teknik/sil-api-specification-4.0.pdf</p>
 
-    <p>Exempel på giltiga idn är:</p>
+        <p>-----------------------------------------------------------------</p>
 
-    <p>20090916000021, 20030307000193 och 19810313000073</p>
+        <b><p>/search</b> gör inget speciellt just nu</p>
+        <b><p>/info/id</b> öppnar upp en fass sida för den sidan</p>
+        <b><p>/med/id</b> lägger till id till listan av idn vi är intresserade av och kommer lista alla ids</p>
+        <p><b>/clearallids</b> tar bort alla ids vi har sparat</p>
 
-    <p>Men alla giltiga idn ska fungera</p>
+        <p>Exempel på giltiga idn är:</p>
 
-    <p>-----------------------------------------------------------------</p>
+        <p>20090916000021, 20030307000193 och 19810313000073</p>
 
-</div>
+        <p>Men alla giltiga idn ska fungera</p>
+
+        <p>-----------------------------------------------------------------</p>
+
+    </div>
 
 </div>
 

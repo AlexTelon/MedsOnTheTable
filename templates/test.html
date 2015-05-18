@@ -1,14 +1,14 @@
-{%  extends "layout.html" %}
+{% extends "layout.html" %}
 
 {% block title %} {{ info }} information {% endblock %}
 
-{%  block body %}
+{% block body %}
     <script>
         console.log("derp");
         console.log({{ info }});
     </script>
 
-  <p>{{ info }}</p>
+    <p>{{ info }}</p>
 
 
-{%  endblock %}
+{% endblock %}

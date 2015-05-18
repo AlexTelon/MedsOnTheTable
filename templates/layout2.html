@@ -1,23 +1,24 @@
+<!-- This file is just for testing purpose could easily be removed if necessary-->
 <!doctype html>
 <html>
-  <head>
+<head>
     {% block head %}
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
-    <title>{% block title %}{% endblock %} - My Webpage</title>
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+        <title>{% block title %}{% endblock %} - My Webpage</title>
     {% endblock %}
-  </head>
+</head>
 
-  <body>
-
-
-    <div id="content">{% block content %}{% endblock %}</div>
-
-    <div id="footer">
-      {% block footer %}
-      &copy; Copyright 2010 by <a href="http://domain.invalid/">you</a>.
-      {% endblock %}
-    </div>
+<body>
 
 
-  </body>
+<div id="content">{% block content %}{% endblock %}</div>
+
+<div id="footer">
+    {% block footer %}
+        &copy; Copyright 2010 by <a href="http://domain.invalid/">you</a>.
+    {% endblock %}
+</div>
+
+
+</body>
 </html>

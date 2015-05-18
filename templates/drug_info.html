@@ -5,7 +5,7 @@
     <title></title>
 
     <link rel="stylesheet" type="text/css" href="../static/bootstrap-3.3.4-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" media="screen"  href="../static/bootstrap-3.3.4-dist/css/jasny-bootstrap.min.css" >
+    <link rel="stylesheet" media="screen" href="../static/bootstrap-3.3.4-dist/css/jasny-bootstrap.min.css">
 
     <!-- Color for ATC-code -->
     <link rel="stylesheet" type="text/css" href="../static/color.css">
@@ -39,10 +39,12 @@
             </div>
             <div class="media-body">
 
-                <h2 class="media-heading"><span class="subscript">{{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] }}</span></h2>
+                <h2 class="media-heading"><span
+                        class="subscript">{{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] }}</span>
+                </h2>
                 <table class="table">
                     <tr>
-                        <td>Substans: </td>
+                        <td>Substans:</td>
                         <td>{{ super_drug_list[nplId][0]['drug']['substanceGroupName'] }}</td>
                     </tr>
                     <tr>
@@ -63,20 +65,20 @@
 
 
         <p class="lead">Vilka andra läkemedelsvaror innehåller samma substans?: </p>
-         <!-- print utbytbara läkemedel -->
+        <!-- print utbytbara läkemedel -->
         {% for names in super_drug_list[nplId][3] %}
             <p> {{ names }} </p>
         {% endfor %}
         <p class="lead">Vilka andra substanser har likartad verkan? </p>
-         <!-- print liknande substanser -->
+        <!-- print liknande substanser -->
         {% for names in super_drug_list[nplId][5] %}
             <p> {{ names }} </p>
         {% endfor %}
         <p class="lead">Vad kostar andra alternativ? </p>
 
-            {% for storlek, pris in super_drug_list[nplId][7].iteritems() %}
-                <p> En förpackning med <strong>{{ storlek }} </strong> kostar: {{ pris }} kr </p>
-            {% endfor %}
+        {% for storlek, pris in super_drug_list[nplId][7].iteritems() %}
+            <p> En förpackning med <strong>{{ storlek }} </strong> kostar: {{ pris }} kr </p>
+        {% endfor %}
 
         <p class="lead">Biverkningar? </p>
 
@@ -84,17 +86,17 @@
 
         {% if "0" in super_drug_list[nplId][6].keys() %}
 
-        <p> Det finns inga kända biverkningar för läkemedlet </p>
+            <p> Det finns inga kända biverkningar för läkemedlet </p>
         {% else %}
 
             {% for key, value in super_drug_list[nplId][6].iteritems() %}
-                <p> <strong>{{ key }} </strong> </p>
-                {% for names in  value%}
-                <p> {{ names }} </p>
-            {% endfor %}
+                <p><strong>{{ key }} </strong></p>
+                {% for names in  value %}
+                    <p> {{ names }} </p>
+                {% endfor %}
             {% endfor %}
 
-            {% endif %}
+        {% endif %}
 
         <p class="lead">Graviditet och amning?</p>
 
@@ -105,12 +107,18 @@
 
         <!-- Viktigt från 1177 -->
         <p>
-            <p class="lead">Vikigt</p>
-Man får inte mer smärtlindring genom att ta en större dos än vad som står på förpackningen eller vad läkaren ordinerat. Om man tar en större dos än rekommenderat finns risk för att man kan få en allvarlig leverskada. Därför ska man inte heller ta Alvedon tillsammans med andra läkemedel som innehåller paracetamol, eftersom den sammanlagda dosen paracetamol kan bli för hög. Man ska kontakta läkare direkt om man har tagit för hög dos eftersom leverskadan märks först efter ett par dagar.
 
-Om man missbrukar alkohol ökar risken för leverskada. Om man har alkoholproblem ska man inte använda läkemedel som innehåller paracetamol utan att först ha rådgjort med läkare.
+        <p class="lead">Vikigt</p>
+        Man får inte mer smärtlindring genom att ta en större dos än vad som står på förpackningen eller vad läkaren
+        ordinerat. Om man tar en större dos än rekommenderat finns risk för att man kan få en allvarlig leverskada.
+        Därför ska man inte heller ta Alvedon tillsammans med andra läkemedel som innehåller paracetamol, eftersom den
+        sammanlagda dosen paracetamol kan bli för hög. Man ska kontakta läkare direkt om man har tagit för hög dos
+        eftersom leverskadan märks först efter ett par dagar.
 
-Berusningseffekten av alkohol ökar inte genom att man tar paracetamol samtidigt.
+        Om man missbrukar alkohol ökar risken för leverskada. Om man har alkoholproblem ska man inte använda läkemedel
+        som innehåller paracetamol utan att först ha rådgjort med läkare.
+
+        Berusningseffekten av alkohol ökar inte genom att man tar paracetamol samtidigt.
         </p>
 
 

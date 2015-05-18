@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="../static/bootstrap-3.3.4-dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../static/bootstrap-3.3.4-dist/css/bootstrap-horizon.css">
-    <link rel="stylesheet" media="screen"  href="../static/bootstrap-3.3.4-dist/css/jasny-bootstrap.min.css" >
+    <link rel="stylesheet" media="screen" href="../static/bootstrap-3.3.4-dist/css/jasny-bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../static/color.css">
     <style>
         .pricing-table {
@@ -47,25 +47,29 @@
         .panel-title {
             text-align: left;
         }
+
         .container {
-            margin:0px;
-            border:0px;
+            margin: 0px;
+            border: 0px;
 
             overflow-y: hidden;
             overflow-x: scroll;
         }
+
         .nopadding {
-          padding: 0 !important;
-          margin: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
 
-        .word-count-default{
+        .word-count-default {
             font-size: 1em;
         }
-        .word-count-long{
+
+        .word-count-long {
             font-size: 0.4em;
         }
-        .word-count-medium{
+
+        .word-count-medium {
             font-size: 0.75em;
         }
 
@@ -76,365 +80,375 @@
 </head>
 
 <!--<body> -->
-{%  block body %}
+{% block body %}
 
-<div class="container-float ">
+    <div class="container-float ">
 
-<div class="row pricing-table .row-horizon">
+    <div class="row pricing-table .row-horizon">
 
-<!-- Create a loop through the list -->
+    <!-- Create a loop through the list -->
 
-{% for nplId in ids %}
+    {% for nplId in ids %}
 
-    <div class="col-xs-3 col-md-3" >
-    <div class="panel panel-default">
-        <div class="panel-heading panel-{{ super_drug_list[nplId][0]['atcs'][0]['atcCode'][0] }}">
+        <div class="col-xs-3 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading panel-{{ super_drug_list[nplId][0]['atcs'][0]['atcCode'][0] }}">
 
-            <h3 class="panel-title">
-                <!-- Vilket organ det verkar mot -->
-                {{ atc_dict[super_drug_list[nplId][0]['atcs'][0]['atcCode'][0]] }}
-            </h3>
-        </div>
-        <div class="panel-body">
-            <div class="the-price ">
-                <h2>
-                    <!-- Handelsnamn -->
-                    <span class="subscript {{ word_count[super_drug_list[nplId][8]] }} ">{{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] }}</span>
-                </h2>
-                <small><em>{{ super_drug_list[nplId][0]['distributedDrugs'][0]['drugFormTextSv'] }}</em></small>
-            </div>
-            <table class="table">
-                <tr>
-                    <td>
-                        <!-- Substansnamn -->
-                        Du har <span class="badge"> {{ substance_count[super_drug_list[nplId][0]['drug']['substanceGroupId']] }} </span>
-                        {{ super_drug_list[nplId][0]['drug']['substanceGroupName'] }}
+                    <h3 class="panel-title">
+                        <!-- Vilket organ det verkar mot -->
+                        {{ atc_dict[super_drug_list[nplId][0]['atcs'][0]['atcCode'][0]] }}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="the-price ">
+                        <h2>
+                            <!-- Handelsnamn -->
+                            <span class="subscript {{ word_count[super_drug_list[nplId][8]] }} ">{{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] }}</span>
+                        </h2>
+                        <small><em>{{ super_drug_list[nplId][0]['distributedDrugs'][0]['drugFormTextSv'] }}</em></small>
+                    </div>
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <!-- Substansnamn -->
+                                Du har <span
+                                    class="badge"> {{ substance_count[super_drug_list[nplId][0]['drug']['substanceGroupId']] }} </span>
+                                {{ super_drug_list[nplId][0]['drug']['substanceGroupName'] }}
 
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                         <!-- Styrka -->
-                         {{ super_drug_list[nplId][0]['distributedDrugs'][0]['strengthText'] }}
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <!-- Ny knapp med symbol -->
-                        <button type="button" class="btn btn-labeled {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silPregnancyCode']] }} ">
-                            <span class="btn-label"><i class="glyphicon {{ glyph_icon[super_drug_list[nplId][0]['distributedDrugs'][0]['silPregnancyCode']] }}"></i>
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td>
+                                <!-- Styrka -->
+                                {{ super_drug_list[nplId][0]['distributedDrugs'][0]['strengthText'] }}
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td>
+                                <!-- Ny knapp med symbol -->
+                                <button type="button"
+                                        class="btn btn-labeled {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silPregnancyCode']] }} ">
+                            <span class="btn-label"><i
+                                    class="glyphicon {{ glyph_icon[super_drug_list[nplId][0]['distributedDrugs'][0]['silPregnancyCode']] }}"></i>
                             </span>Graviditet
-                        </button>
-                        <!--<a href="#" class="btn btn-sm {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silPregnancyCode']] }} " role="button">
+                                </button>
+                                <!--<a href="#" class="btn btn-sm {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silPregnancyCode']] }} " role="button">
                             Graviditet
                         </a> -->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <!-- Ny knapp med symbol -->
-                        <button type="button" class="btn btn-labeled {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silLactationCode']] }} ">
-                            <span class="btn-label"><i class="glyphicon {{ glyph_icon[super_drug_list[nplId][0]['distributedDrugs'][0]['silLactationCode']] }}"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- Ny knapp med symbol -->
+                                <button type="button"
+                                        class="btn btn-labeled {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silLactationCode']] }} ">
+                            <span class="btn-label"><i
+                                    class="glyphicon {{ glyph_icon[super_drug_list[nplId][0]['distributedDrugs'][0]['silLactationCode']] }}"></i>
                             </span>Amning
-                        </button>
-                        <!--
+                                </button>
+                                <!--
                         <a href="#" class="btn btn-sm {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silLactationCode']] }}" role="button">
                             Amning <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         </a>
                         -->
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <!-- Ny knapp med symbol -->
-                        <button type="button" class="btn btn-labeled {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['containsLactosFlag']] }} ">
-                            <span class="btn-label"><i class="glyphicon {{ glyph_icon[super_drug_list[nplId][0]['distributedDrugs'][0]['containsLactosFlag']] }}"></i>
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td>
+                                <!-- Ny knapp med symbol -->
+                                <button type="button"
+                                        class="btn btn-labeled {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['containsLactosFlag']] }} ">
+                            <span class="btn-label"><i
+                                    class="glyphicon {{ glyph_icon[super_drug_list[nplId][0]['distributedDrugs'][0]['containsLactosFlag']] }}"></i>
                             </span>Laktos
-                        </button>
-                        <!--
+                                </button>
+                                <!--
                         <a href="#" class="btn btn-sm {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silLactationCode']] }}" role="button">
                             Doping - Fel
                         </a>
                         -->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <!-- Ny knapp med symbol -->
-                        <button type="button" class="btn btn-labeled {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['containsLatexFlag']] }} ">
-                            <span class="btn-label"><i class="glyphicon {{ glyph_icon[super_drug_list[nplId][0]['distributedDrugs'][0]['containsLatexFlag']] }}"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- Ny knapp med symbol -->
+                                <button type="button"
+                                        class="btn btn-labeled {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['containsLatexFlag']] }} ">
+                            <span class="btn-label"><i
+                                    class="glyphicon {{ glyph_icon[super_drug_list[nplId][0]['distributedDrugs'][0]['containsLatexFlag']] }}"></i>
                             </span>Latex
-                        </button>
-                        <!--
+                                </button>
+                                <!--
                         <a href="#" class="btn btn-sm {{ buttons[super_drug_list[nplId][0]['distributedDrugs'][0]['silLactationCode']] }}" role="button">
                             Amning <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         </a>
                         -->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <!-- print historiska namn -->
-                        {% for names in super_drug_list[nplId][1] %}
-                            <p> {{ names }} </p>
-                        {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- print historiska namn -->
+                                {% for names in super_drug_list[nplId][1] %}
+                                    <p> {{ names }} </p>
+                                {% endfor %}
 
-                    </td>
-                </tr>
+                            </td>
+                        </tr>
 
-                <tr>
-                    <td>
-                        <!-- print utbytbara läkemedel -->
-                        {% for names in super_drug_list[nplId][3] %}
-                            <p> {{ names }} </p>
-                        {% endfor %}
+                        <tr>
+                            <td>
+                                <!-- print utbytbara läkemedel -->
+                                {% for names in super_drug_list[nplId][3] %}
+                                    <p> {{ names }} </p>
+                                {% endfor %}
 
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="panel-footer">
-        </div>
-    </div>
-</div>
-
-{% endfor %}
-
-
-
-<!-- ---- First card ---- -->
-<div class="col-xs-3 col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-heading panel-N">
-            <h3 class="panel-title">
-                Nervsystemet
-            </h3>
-        </div>
-        <div class="panel-body">
-            <div class="the-price">
-                <h1>
-                    <span class="subscript">Alvedon</span>
-                </h1>
-                <small><em>Brustabletter</em></small>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                </div>
             </div>
-            <table class="table">
-                <tr>
-                    <td>
-                        Paracetamol <span class="badge"> 4 </span>
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                         500 mg
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        99:-
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <a href="#" class="btn btn-warning btn-sm" role="button">Graviditet</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="#" class="btn btn-danger btn-sm" role="button">Amning</a>
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <span class="label label-success">Doping</span>
-                        <!-- <a href="#" class="btn btn-success btn-sm" role="button">Doping</a> -->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        my awes
-                    </td>
-                </tr>
-            </table>
         </div>
-        <div class="panel-footer">
-        </div>
-    </div>
-</div>
-<!-- ---- Second card ---- -->
-<div class="col-xs-3 col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-heading panel-C">
-            <h3 class="panel-title">
-                Hjärta och krets
-            </h3>
-        </div>
-        <div class="panel-body">
-            <div class="the-price">
-                <h1>
-                    <span class="subscript">Eliquis</span>
-                </h1>
-                <small><em>Filmdragerad tablett</em></small>
-            </div>
-            <table class="table">
-                <tr>
-                    <td>
-                        Apixaban
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        5 mg
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        50:-
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <a href="#" class="btn btn-danger btn-sm" role="button">Graviditet</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="#" class="btn btn-success btn-sm" role="button">Amning</a>
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        My
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="panel-footer">
-        </div>
-    </div>
-</div>
-<!-- ---- Third card ---- -->
-<div class="col-xs-3 col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-heading panel-R">
-            <h3 class="panel-title">
-                Andningsorgan
-            </h3>
-        </div>
-        <div class="panel-body">
-            <div class="the-price">
-                <h1>
-                    <span class="subscript">Kestine</span>
-                </h1>
-                <small>Filmdragerad tablett</small>
-            </div>
-            <table class="table">
-                <tr>
-                    <td>
-                        Ebastin
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        10 mg
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        199:-
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <a href="#" class="btn btn-danger btn-sm" role="button">Graviditet</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="#" class="btn btn-danger btn-sm" role="button">Amning</a>
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        my awes
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="panel-footer">
-        </div>
-    </div>
-</div>
-<!-- ---- Fourth card ---- -->
-<div class="col-xs-3 col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-heading panel-M">
-            <h3 class="panel-title">
-                Rörelseapparaten
-            </h3>
-        </div>
-        <div class="panel-body">
-            <div class="the-price">
-                <h1>
-                    <span class="subscript">NIPAXON</span>
-                </h1>
-                <small>1 month FREE trial</small>
-            </div>
-            <table class="table">
-                <tr>
-                    <td>
-                        2 Accountss
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        5 Project
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        100K API Access
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <a href="#" class="btn btn-danger btn-sm" role="button">Graviditet</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="#" class="btn btn-danger btn-sm" role="button">Amning</a>
-                    </td>
-                </tr>
-                <tr class="active">
-                    <td>
-                        <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        my awes
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="panel-footer">
-        </div>
-    </div>
-</div>
 
-</div> <!-- row -->
+    {% endfor %}
 
-</div> <!-- container -->
-<!-- </body> -->
-{%  endblock %}
+
+
+    <!-- ---- First card ---- -->
+    <div class="col-xs-3 col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading panel-N">
+                <h3 class="panel-title">
+                    Nervsystemet
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="the-price">
+                    <h1>
+                        <span class="subscript">Alvedon</span>
+                    </h1>
+                    <small><em>Brustabletter</em></small>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>
+                            Paracetamol <span class="badge"> 4 </span>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            500 mg
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            99:-
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            <a href="#" class="btn btn-warning btn-sm" role="button">Graviditet</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="btn btn-danger btn-sm" role="button">Amning</a>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            <span class="label label-success">Doping</span>
+                            <!-- <a href="#" class="btn btn-success btn-sm" role="button">Doping</a> -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            my awes
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
+    <!-- ---- Second card ---- -->
+    <div class="col-xs-3 col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading panel-C">
+                <h3 class="panel-title">
+                    Hjärta och krets
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="the-price">
+                    <h1>
+                        <span class="subscript">Eliquis</span>
+                    </h1>
+                    <small><em>Filmdragerad tablett</em></small>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>
+                            Apixaban
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            5 mg
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            50:-
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            <a href="#" class="btn btn-danger btn-sm" role="button">Graviditet</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="btn btn-success btn-sm" role="button">Amning</a>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            My
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
+    <!-- ---- Third card ---- -->
+    <div class="col-xs-3 col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading panel-R">
+                <h3 class="panel-title">
+                    Andningsorgan
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="the-price">
+                    <h1>
+                        <span class="subscript">Kestine</span>
+                    </h1>
+                    <small>Filmdragerad tablett</small>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>
+                            Ebastin
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            10 mg
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            199:-
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            <a href="#" class="btn btn-danger btn-sm" role="button">Graviditet</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="btn btn-danger btn-sm" role="button">Amning</a>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            my awes
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
+    <!-- ---- Fourth card ---- -->
+    <div class="col-xs-3 col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading panel-M">
+                <h3 class="panel-title">
+                    Rörelseapparaten
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="the-price">
+                    <h1>
+                        <span class="subscript">NIPAXON</span>
+                    </h1>
+                    <small>1 month FREE trial</small>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>
+                            2 Accountss
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            5 Project
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            100K API Access
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            <a href="#" class="btn btn-danger btn-sm" role="button">Graviditet</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="btn btn-danger btn-sm" role="button">Amning</a>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>
+                            <a href="#" class="btn btn-success btn-sm" role="button">Doping</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            my awes
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <!-- row -->
+
+    </div> <!-- container -->
+    <!-- </body> -->
+{% endblock %}
 </html>
