@@ -394,10 +394,10 @@ def clearAllIds():
 @app.route('/card')
 def card_view():
     # Some hardcoded medicines that are added to the card view. TODO - remove this?
-    add_drug(19581215000033)
-    add_drug(19851206000039)
-    add_drug(19581115000027)
-    add_drug(20070605000020)
+    #add_drug(19581215000033)
+    #add_drug(19851206000039)
+    #add_drug(19581115000027)
+    #add_drug(20070605000020)
 
     return render_template('card_view.html',
                            ids=medArray,
@@ -409,11 +409,7 @@ def card_view():
                            word_count=word_count)
 
 
-# Some test routes (can be removed) ---------------------------------------------
-
-@app.route('/grid')
-def grid():
-    return render_template('grid_system.html')
+# Some test routes
 
 
 @app.route('/drug_info')
@@ -421,24 +417,11 @@ def drug_info():
     return render_template('drug_info.html')
 
 
-@app.route('/l2')
-def index2():
-    return render_template("layout2.html")
-
-
 @app.route('/test')
 def test():
-    return render_template("child.html")
+    return render_template("test.html")
 
 
-@app.route('/test2')
-def test2():
-    return render_template("test2.html")
-
-
-@app.route('/test3')
-def test3():
-    return render_template("test3.html")
 
 
 
