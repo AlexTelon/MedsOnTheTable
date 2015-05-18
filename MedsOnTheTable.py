@@ -253,6 +253,14 @@ def add_drug(nplId):
     drug_name = superDrug[0]['distributedDrugs'][0]['tradeName'][:-1]
     trade_name = superDrug[0]['distributedDrugs'][0]['tradeName']
 
+    print '---------'
+    print trade_name
+    print trade_name[-1:]
+    print '---------'
+
+    if '®' in trade_name:
+        print 'YES'
+
     for name in distDrugsHistNames:
         if name != drug_name and name != trade_name:
             hist_names.append(name)

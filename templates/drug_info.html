@@ -40,7 +40,13 @@
             <div class="media-body">
 
                 <h2 class="media-heading"><span
-                        class="subscript">{{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] }}</span>
+                        class="subscript">
+                    {% if '®' in super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] %}
+                    {{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'][:-1]}}
+                    {% else %}
+                    {{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName']}}
+                    {% endif %}
+                </span>
                 </h2>
                 <table class="table">
                     <tr>
