@@ -352,7 +352,7 @@ def add_drug(nplId):
     return render_template('med_info.html', nplId_list=medArray, len=len(medArray))
 
 
-#: ???
+#: Returns the current medicines that are to be shown in the navbar. Called from javascript in info.html
 @app.route('/navbarInfo')
 def navbarInfo():
     dict = {};
@@ -367,7 +367,7 @@ def navbarInfo():
     return jsonify(dict)
 
 
-#: ???
+#: simple return of number of medicines shown in the navbar
 @app.route('/navbar/nrOfIds')
 def nrOfIds():
     temp = len(medArray)
@@ -385,6 +385,7 @@ def clearAllIds():
 #: The horizontal view
 @app.route('/card')
 def card_view():
+    # Some hardcoded medicines that are added to the card view. TODO - remove this?
     add_drug(19581215000033)
     add_drug(19851206000039)
     add_drug(19581115000027)
