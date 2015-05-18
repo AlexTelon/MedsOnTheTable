@@ -101,40 +101,71 @@
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>#}
 
 <script>
-       $(document).ready(function () {
-           $.ajax({
-               url: "/navbarInfo",
-               context: document.body
-           }).done(function (result) {
-               console.log("NOW WE ADD TABAS");
-               //console.log("this is the result: ", result)
-               // Skapa en flik per medecin
-               for (var med in result) {
-                   //console.log("name: ", med);
-                   //console.log("id: ", result[med]);
-                   url = "/info/" + parseInt(result[med]);
-                   //console.log("url: ", url);
-                   // skapa en #<id> path
-                   path = "#" + result[med];
-                   $('<li><a href=' + path + " data-toggle=\"tab\">" + med + '</a></li>').appendTo('#tabs');
-               }
-           });
 
-            $("#tabs").click(function (data) {
-            console.log("NOW WE ADD CONTENT");
-            hash = data.target.hash; // get the #<id> hash
+    addContent = function (callUrl) {
+        // Make the call
+        $.ajax({
+            url: callUrl,
+            context: document.body
+        }).done(function (result) {
+            // our flask backend answers with the html page for the meds which we insert to the content div.
+            $("#content").html(result);
+        });
+    };
+
+    $("#tabs").on('input-callUrl', function (event, callUrl) {
+        console.log("callUrl is, (in input-callUrl):", callUrl);
+        addContent(callUrl)
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/navbarInfo",
+            context: document.body
+        }).done(function (result) {
+            console.log("NOW WE ADD TABAS");
+            //console.log("this is the result: ", result)
+            // Skapa en flik per medecin
+            for (var med in result) {
+                // we save the last med added so it can be highlighted in the end
+                lastMedAdded = result[med];
+                //console.log("name: ", med);
+                //console.log("id: ", result[med]);
+                url = "/info/" + parseInt(result[med]);
+                //console.log("url: ", url);
+                // skapa en #<id> path
+                path = "#" + result[med];
+                $('<li><a href=' + path + " data-toggle=\"tab\">" + med + '</a></li>').appendTo('#tabs');
+            }
+
+            callUrl = "/med_info/" + lastMedAdded; // create url to call
+            $("#tabs:last").trigger("input-callUrl", callUrl);
+            // want to make sure one of the tabs is marked, but cannot get it to work now (tired I guess)
+            //$("#tabs:last").trigger("click", "fake-click", callUrl);
+        });
+
+
+        $("#tabs").on('click', function (event, type, callUrl) {
+            if (type === "fake-click") {
+                console.log("event is: ", event);
+                console.log("type is: ", type);
+                console.log("callUrl is: ", callUrl);
+
+            }
+            else {
+            console.log("NOW WE ADD CONTENT for the normal click event");
+            hash = event.target.hash; // get the #<id> hash
+            console.log("hash", hash);
             id = hash.slice(1); // remove # at the start
             callUrl = "/med_info/" + id; // create url to call
-            // Make the call
-            $.ajax({
-                url: callUrl,
-                context: document.body
-            }).done(function (result) {
-                // our flask backend answers with the html page for the meds which we insert to the content div.
-                $("#content").html(result);
-            });
+            console.log("callUrl is:", callUrl);
+
+            console.log("make the call");
+            addContent(callUrl)
+            }
+
         });
-       });
+    });
 
 
 </script>
