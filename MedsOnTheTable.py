@@ -114,102 +114,104 @@ def add_drug(nplId):
     if medArray.count(nplId) == 0:
         medArray.append(nplId)
 
-    # # -----------------------------------------------------------------
-    # # set up the connection to SIL
-    url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
-    sil = suds.client.Client(url)
+    if not nplId in super_drug_list:
+        print 'hello'
+        # # -----------------------------------------------------------------
+        # # set up the connection to SIL
+        url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
+        sil = suds.client.Client(url)
 
-    # # -----------------------------------------------------------------
-    # # Hämta data från SIL
+        # # -----------------------------------------------------------------
+        # # Hämta data från SIL
 
-    # SuperDrug objekt
-    superDrug = sil.service.getSuperDrugsByDrugIdList(nplId, False, -1)
+        # SuperDrug objekt
+        superDrug = sil.service.getSuperDrugsByDrugIdList(nplId, False, -1)
 
-    # Historiska namn
-    distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(nplId)
+        # Historiska namn
+        distDrugsHistNames = sil.service.getDistributedDrugHistoricalNamesByNplId(nplId)
 
-    # Utbytbara läkemedel efter substansgrupp --> Var försiktig här --> kan vara ej utbytbar
-    if superDrug[0]['drug']['interchangeableFlag'] == "Y":
-        drugsBySubstance = sil.service.getDrugsBySubstanceGroupId(superDrug[0]['drug']['substanceGroupId'], False,
-                                                                  -1)  # kan ta lång tid for vissa läkemedel
-        substance_count[superDrug[0]['drug']['substanceGroupId']] = substance_count.get(
-            superDrug[0]['drug']['substanceGroupId'], 0) + 1
-    else:
-        drugsBySubstance = 0
+        # Utbytbara läkemedel efter substansgrupp --> Var försiktig här --> kan vara ej utbytbar
+        if superDrug[0]['drug']['interchangeableFlag'] == "Y":
+            drugsBySubstance = sil.service.getDrugsBySubstanceGroupId(superDrug[0]['drug']['substanceGroupId'], False,
+                                                                      -1)  # kan ta lång tid for vissa läkemedel
+            substance_count[superDrug[0]['drug']['substanceGroupId']] = substance_count.get(
+                superDrug[0]['drug']['substanceGroupId'], 0) + 1
+        else:
+            drugsBySubstance = 0
 
-    # Liknande läkemedel efter ATC-kod Lista med drug objekt.
-    drugsByAtcCode = sil.service.getDrugsByAtcCode(superDrug[0]['atcs'][0]['atcCode'], False, -1)
+        # Liknande läkemedel efter ATC-kod Lista med drug objekt.
+        drugsByAtcCode = sil.service.getDrugsByAtcCode(superDrug[0]['atcs'][0]['atcCode'], False, -1)
 
-    # Biverkningar
-    drugId_in_list = []
-    drugId_in_list.append(str(superDrug[0]['drug']['drugId']))
-    biverkningar = sil.service.getSideEffectsByNplIdList(drugId_in_list, "", "") #anropet måste ske med en lista
+        # Biverkningar
+        drugId_in_list = []
+        drugId_in_list.append(str(superDrug[0]['drug']['drugId']))
+        biverkningar = sil.service.getSideEffectsByNplIdList(drugId_in_list, "", "") # anropet måste ske med en lista
 
-    # DrugArticles
-    drugArticles = sil.service.getDrugArticlesByNplId(nplId)
+        # DrugArticles
+        drugArticles = sil.service.getDrugArticlesByNplId(nplId)
 
-    # This is not used for now
-    substance = sil.service.getSubstancesBySubstanceName("Diklofenak%")
-    #print substance
+        # This is not used for now
+        substance = sil.service.getSubstancesBySubstanceName("Diklofenak%")
+        #print substance
 
-    # # -----------------------------------------------------------------
-    # # Konfigurering innan insättning
+        # # -----------------------------------------------------------------
+        # # Konfigurering innan insättning
 
-    #: Lägg till de utbytbara medicinerna i en lista
-    interchangeableDrugs = helpers.getUtbytbara(superDrug, drugsBySubstance)
+        #: Lägg till de utbytbara medicinerna i en lista
+        interchangeableDrugs = helpers.getUtbytbara(superDrug, drugsBySubstance)
 
-    #: Lägg till de biverkningar efter klassificering i en dict
-    biverkningar_efter_klass = helpers.getBiverkningar(biverkningar)
+        #: Lägg till de biverkningar efter klassificering i en dict
+        biverkningar_efter_klass = helpers.getBiverkningar(biverkningar)
 
-    #: Lägg till de historiska namnen i en lista
-    hist_names = helpers.getHistoricNames(superDrug, distDrugsHistNames)
+        #: Lägg till de historiska namnen i en lista
+        hist_names = helpers.getHistoricNames(superDrug, distDrugsHistNames)
 
-    #: Lägg till förpackning och pris i en dict
-    size_and_price = helpers.getSizeAndPrize(drugArticles)
+        #: Lägg till förpackning och pris i en dict
+        size_and_price = helpers.getSizeAndPrize(drugArticles)
 
-    # Lägg till de liknande medicinerna i en lista
-    similarDrugs = []  # Lista med liknande läkemedel --> baserat på ATC-kod
-    similarSubstance = []  # Lista med liknande Substans --> baserat på ATC-kod
+        # Lägg till de liknande medicinerna i en lista
+        similarDrugs = []  # Lista med liknande läkemedel --> baserat på ATC-kod
+        similarSubstance = []  # Lista med liknande Substans --> baserat på ATC-kod
 
-    for drug in drugsByAtcCode:
-        #if drug['strengthGroupId'] == superDrug[0]['drug']['strengthGroupId']:           # Kolla så de har samma stryke grupp.
-        #if drug['interchangeableFlag'] == 'Y':                                           # Kolla så de är utbytbara
-        if not drug['tradeName'] in similarDrugs:                                         # Kolla så inte samma namn läggs till två gång troligen reduntdant
-            #print drug['tradeName']
-            similarDrugs.append(drug['tradeName'])
-            if not drug['substanceGroupName'] in similarSubstance:
-                if not drug['substanceGroupName'] == 'Ospecificerad':
-                    similarSubstance.append(drug['substanceGroupName'])
+        for drug in drugsByAtcCode:
+            #if drug['strengthGroupId'] == superDrug[0]['drug']['strengthGroupId']:           # Kolla så de har samma stryke grupp.
+            #if drug['interchangeableFlag'] == 'Y':                                           # Kolla så de är utbytbara
+            if not drug['tradeName'] in similarDrugs:                                         # Kolla så inte samma namn läggs till två gång troligen reduntdant
+                #print drug['tradeName']
+                similarDrugs.append(drug['tradeName'])
+                if not drug['substanceGroupName'] in similarSubstance:
+                    if not drug['substanceGroupName'] == 'Ospecificerad':
+                        similarSubstance.append(drug['substanceGroupName'])
 
-    #print similarDrugs
-    #print similarSubstance
-
-
-    # TODO: the logic is not correct
-    # Check the length of the tradename
-    print "??????"
-    print len(superDrug[0]['drug']['tradeName'])
-    print "???????"
-    if len(superDrug[0]['drug']['tradeName']) > 25:
-        trade_name_length = "long"
-    elif len(superDrug[0]['drug']['tradeName']) > 15:
-        trade_name_length = "medium"
-    else:
-        trade_name_length = "default"
+        #print similarDrugs
+        #print similarSubstance
 
 
-    # # -----------------------------------------------------------------
-    # # Sätt in läkemedlet i våran dictionary som skickas till sidan med information.
-    # # key=nlpID --> value=lista med godtyckliga saker [SuperDrug, .. ,etc,]
-    super_drug_list[nplId] = superDrug                          # [0] - SuperDrug objekt --> innehåller ATC, distDrug och Drug object
-    super_drug_list[nplId].append(hist_names)                   # [1] - Lista med de historiska namnen
-    super_drug_list[nplId].append(drugsBySubstance)             # [2] -
-    super_drug_list[nplId].append(interchangeableDrugs)         # [3] - Lista med de utbytbara medicinerna
-    super_drug_list[nplId].append(similarDrugs)                 # [4] - Lista med de liknanade medicinerna
-    super_drug_list[nplId].append(similarSubstance)             # [5] - Lista med de liknanade substanserna
-    super_drug_list[nplId].append(biverkningar_efter_klass)     # [6] - Dict med biverkningar key=frekvens -> value=lista över symtom
-    super_drug_list[nplId].append(size_and_price)               # [7] - Dict med pris. key=storlek -> value=pris
-    super_drug_list[nplId].append(trade_name_length)            # [8] - String. length of the trade name (can be removed)
+        # TODO: the logic is not correct
+        # Check the length of the tradename
+        print "??????"
+        print len(superDrug[0]['drug']['tradeName'])
+        print "???????"
+        if len(superDrug[0]['drug']['tradeName']) > 25:
+            trade_name_length = "long"
+        elif len(superDrug[0]['drug']['tradeName']) > 15:
+            trade_name_length = "medium"
+        else:
+            trade_name_length = "default"
+
+
+        # # -----------------------------------------------------------------
+        # # Sätt in läkemedlet i våran dictionary som skickas till sidan med information.
+        # # key=nlpID --> value=lista med godtyckliga saker [SuperDrug, .. ,etc,]
+        super_drug_list[nplId] = superDrug                          # [0] - SuperDrug objekt --> innehåller ATC, distDrug och Drug object
+        super_drug_list[nplId].append(hist_names)                   # [1] - Lista med de historiska namnen
+        super_drug_list[nplId].append(drugsBySubstance)             # [2] -
+        super_drug_list[nplId].append(interchangeableDrugs)         # [3] - Lista med de utbytbara medicinerna
+        super_drug_list[nplId].append(similarDrugs)                 # [4] - Lista med de liknanade medicinerna
+        super_drug_list[nplId].append(similarSubstance)             # [5] - Lista med de liknanade substanserna
+        super_drug_list[nplId].append(biverkningar_efter_klass)     # [6] - Dict med biverkningar key=frekvens -> value=lista över symtom
+        super_drug_list[nplId].append(size_and_price)               # [7] - Dict med pris. key=storlek -> value=pris
+        super_drug_list[nplId].append(trade_name_length)            # [8] - String. length of the trade name (can be removed)
 
 
     return render_template('layout.html', nplId_list=medArray, len=len(medArray))

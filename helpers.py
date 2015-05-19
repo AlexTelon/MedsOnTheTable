@@ -2,6 +2,9 @@
 __author__ = 'johanordin'
 
 
+pris_databas = { '19851206000039': 56,
+                 }
+
 
 #: Lägg till de historiska namnen i en lista
 def getHistoricNames(superDrug, distDrugsHistNames):
@@ -72,6 +75,12 @@ def getSizeAndPrize(drugArticles):
     size_and_price = {}
 
     for drugArt in drugArticles:
-        size_and_price[drugArt['packSizeText']] = drugArt['aup']
+        if not drugArt['aup'] == 0.0:
+            size_and_price[drugArt['packSizeText']] = drugArt['aup']
+        else:
+            if str(drugArt['nplId']) in pris_databas:
+                size_and_price[drugArt['packSizeText']] = pris_databas[str(drugArt['nplId'])]
+            else:
+                size_and_price[drugArt['packSizeText']] = 99
 
     return size_and_price
