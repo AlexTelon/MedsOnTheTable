@@ -56,7 +56,8 @@ word_count = {"default": "word-count-default",
 
 # Variables  ---------------------------------------------
 medArray = {}
-super_drug_list = {}  # Dictionaryn som all information samlar i och som skickas till olika sidor.
+super_drug_list = {}              # Dictionaryn som all information samlar i och som skickas till olika sidor.
+nlpId_list = []
 
 # substance_count = {}            # Räknar hur många du har av samma substans
 substance_count = dict()
@@ -113,6 +114,9 @@ def add_drug(nplId):
     # # set up the connection to SIL
     url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
     sil = suds.client.Client(url)
+
+    if nlpId_list.count(nplId) == 0:
+        nlpId_list.append(nplId)
 
     # # -----------------------------------------------------------------
     # Make sure we only put in unique ids
@@ -214,8 +218,11 @@ def add_drug(nplId):
         super_drug_list[nplId].append(size_and_price)               # [7] - Dict med pris. key=storlek -> value=pris
         super_drug_list[nplId].append(trade_name_length)            # [8] - String. length of the trade name (can be removed)
 
+
+        print super_drug_list[nplId][0]['atcs'][0]['atcCode'][0]
+
     # "nplId_list" and "len" is not used by layout right now
-    return render_template('layout.html', nplId_list=medArray, len=len(medArray))
+    return render_template('layout.html', nplId_list=nlpId_list, len=len(medArray))
 
 
 #: Returns the current medicines that are to be shown in the navbar. Called from javascript in info.html
@@ -248,7 +255,7 @@ def card_view():
     #add_drug(20070605000020)
 
     return render_template('card_view.html',
-                           ids=medArray,
+                           nplId_list=nlpId_list,
                            super_drug_list=super_drug_list,
                            buttons=buttons,
                            atc_dict=atc_dict,
