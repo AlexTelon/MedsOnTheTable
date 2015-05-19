@@ -38,6 +38,32 @@ atc_dict = {'A': 'Matsmältningsorgan och ämnesomsättning',
             'S': 'Ögon och öron',
             'V': 'Övrigt'}
 
+eleven77 = { '19851206000039' : {'Viktigt': 'Man ska inte använda medicinen om man tidigare har fått astma eller allergiska besvär av acetylsalicylsyra eller av andra cox-hämmare mot smärta och inflammation. Om man har eller har haft vissa sjukdomar ska man rådgöra med läkare innan man tar medicinen. Det gäller till exempel ökad risk för blödning, magsår, hjärtsvikt, inflammatorisk tarmsjukdom eller någon njur- eller leversjukdom. Man ska rådgöra med läkare om man har astma. Medicinen kan ge en kraftig överkänslighetsreaktion med nässelutslag, rinnsnuva eller andningsbesvär. Sådana reaktioner är vanligare bland personer som har astma. Man ska också rådgöra med läkare om man har hjärtproblem eller tidigare har haft stroke eller om man har en ökad risk för dessa tillstånd på grund av blodtryckssjukdom, diabetes eller livsstil (till exempel om man röker eller inte motionerar regelbundet). Det kan finnas en ökad risk för hjärtinfarkt eller stroke vid användning av medicinen. Risken är större om man använder höga doser av medicinen under lång tid. Man bör inte använda medicinen i samband med vattkoppor eftersom den då kan öka risken för ovanliga, men allvarliga, följdinfektioner. Gelen ska inte smörjas på öppna sår, infekterad hud, akne eller eksem. Man ska inte heller använda gelen under lufttäta bandage eftersom det kan göra att kroppen tar upp mer av läkemedlet och risken för biverkningar ökar. Medicinen kan tillfälligt minska kvinnors möjligheter att bli gravida.',
+                                 'Biverkningar': 'En del personer som använder medicinen kan få magbesvär som till exempel illamående, ont i magen eller diarré. Medicinen kan också öka risken för magsår. Andra kan till exempel bli trötta, få ont i huvudet eller hudutslag. Äldre personer får lättare biverkningar av cox-hämmare. Detta gäller särskilt allvarliga symtom från magen som magblödningar. I sällsynta fall har allvarliga hudreaktioner inträffat efter användning av cox-hämmare. Om man får hudutslag eller skador på slemhinnorna ska man genast avbryta behandlingen och kontakta läkare.',
+                                 'Graviditet': 'Under de första sex månaderna av graviditeten bör man inte använda medicinen utan att ha rådgjort med läkare. Det finns en risk för att fostret kan påverkas. Under graviditetens sista tre månader ska man inte använda medicinen alls.',
+                                 'Amning': 'Man kan använda medicinen när man ammar trots att det verksamma ämnet passerar över i modersmjölken. Om man följer doseringsanvisningarna är det inte sannolikt att barnet påverkas.'},
+             '19581115000027' : {'Viktigt': 'Man får inte mer smärtlindring genom att ta en större dos än vad som står på förpackningen eller vad läkaren ordinerat. Om man tar en större dos än rekommenderat finns risk för att man kan få en allvarlig leverskada. Därför ska man inte heller ta Alvedon tillsammans med andra läkemedel som innehåller paracetamol, eftersom den sammanlagda dosen paracetamol kan bli för hög. Man ska kontakta läkare direkt om man har tagit för hög dos eftersom leverskadan märks först efter ett par dagar. Om man missbrukar alkohol ökar risken för leverskada. Om man har alkoholproblem ska man inte använda läkemedel som innehåller paracetamol utan att först ha rådgjort med läkare. Berusningseffekten av alkohol ökar inte genom att man tar paracetamol samtidigt.',
+                                 'Biverkningar': 'Vissa personer som använder stolpiller kan känna irritation i ändtarmen. Om man använder Alvedon på rätt sätt och i rätt doser är biverkningar annars ovanliga.',
+                                 'Graviditet': 'Man kan använda läkemedlet när man är gravid.',
+                                 'Amning': 'Man kan använda medicinen när man ammar trots att det verksamma ämnet passerar över i modersmjölken. Om man följer doseringsanvisningarna är det inte sannolikt att barnet påverkas.'},
+             '19581215000033' : {'Viktigt': 'Man får inte mer smärtlindring genom att ta en större dos än vad som står på förpackningen eller vad läkaren ordinerat. Om man tar en större dos än rekommenderat finns risk för att man kan få en allvarlig leverskada. Därför ska man inte heller ta Panodil tillsammans med andra läkemedel som innehåller paracetamol, eftersom den sammanlagda dosen paracetamol kan bli för hög. Man ska kontakta läkare direkt om man har tagit för hög dos eftersom leverskadan märks först efter ett par dagar. Om man missbrukar alkohol ökar risken för leverskada. Om man har alkoholproblem ska man inte använda läkemedel som innehåller paracetamol utan att först ha rådgjort med läkare. Berusningseffekten av alkohol ökar inte genom att man tar paracetamol samtidigt.',
+                                 'Biverkningar': 'Vissa personer som använder stolpiller kan känna irritation i ändtarmen. Om man använder Panodil på rätt sätt och i rätt doser är biverkningar annars ovanliga.',
+                                 'Graviditet': 'Man kan använda läkemedlet när man är gravid.',
+                                 'Amning': 'Man kan använda medicinen när man ammar trots att det verksamma ämnet passerar över i modersmjölken. Om man följer doseringsanvisningarna är det inte sannolikt att barnet påverkas.'},
+             '20020208000323' : {'Viktigt': 'Man ska inte använda medicinen om man har en allvarlig njursjukdom. Det är ovanligt att medicinen påverkar förmågan att köra bil eller hantera maskiner. Enstaka personer kan bli dåsiga eller yra av medicinen och man måste själv känna efter hur man reagerar. Man är själv ansvarig för att bedöma om man kan köra bil eller annat motorfordon, eller sköta ett arbete som kräver full uppmärksamhet.',
+                                 'Biverkningar': 'En del personer som använder medicinen kan till exempel bli dåsiga eller yra. Vissa kan få ont i huvudet.',
+                                 'Graviditet': 'All erfarenhet visar att man kan använda medicinen när man är gravid.',
+                                 'Amning': 'Man ska rådgöra med läkare om man behöver använda läkemedlet när man ammar.'},
+             'null' :{           'Viktigt': 'Denna information har inte hämtats från 1177 for det här läkemedlet än',
+                                 'Biverkningar': 'Denna information har inte hämtats från 1177 for det här läkemedlet än',
+                                 'Graviditet': 'Denna information har inte hämtats från 1177 for det här läkemedlet än',
+                                 'Amning': 'Denna information har inte hämtats från 1177 for det här läkemedlet än' }
+
+
+             }
+
+valid_drugs_for_demo = ['19581115000027', '19851206000039','19581215000033' ,'20020208000323']
+
 buttons = {"H": "btn-danger",
            "M": "btn-warning",
            "L": "btn-success",
@@ -218,8 +244,13 @@ def add_drug(nplId):
         super_drug_list[nplId].append(size_and_price)               # [7] - Dict med pris. key=storlek -> value=pris
         super_drug_list[nplId].append(trade_name_length)            # [8] - String. length of the trade name (can be removed)
 
+        if nplId in valid_drugs_for_demo:
+            super_drug_list[nplId].append(eleven77[str(nplId)])         # [9] - String. length of the trade name (can be removed)
+        else:
+            super_drug_list[nplId].append(eleven77['null'])         # [9] - String. length of the trade name (can be removed)
 
-        print super_drug_list[nplId][0]['atcs'][0]['atcCode'][0]
+
+        print super_drug_list[nplId][9]['Viktigt']
 
     # "nplId_list" and "len" is not used by layout right now
     return render_template('layout.html', nplId_list=nlpId_list, len=len(medArray))

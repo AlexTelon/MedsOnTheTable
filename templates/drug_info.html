@@ -64,6 +64,15 @@
             </div>
         </div>
 
+        <!-- Viktigt från 1177 -->
+        <p class="lead">Viktig information</p>
+        <p> {{ super_drug_list[nplId][9]['Viktigt']  }} </p>
+        <p class="lead">Biverkningar</p>
+        <p> {{ super_drug_list[nplId][9]['Biverkningar'] }} </p>
+        <p class="lead">Graviditet</p>
+        <p> {{ super_drug_list[nplId][9]['Graviditet'] }} </p>
+        <p class="lead">Amning</p>
+        <p> {{ super_drug_list[nplId][9]['Amning'] }} </p>
 
         <div class="row">
             <div class="col-xs-6 col-md-3">
@@ -99,48 +108,28 @@
             ...
         </div>
 
-
-        <p class="lead">Vilka andra läkemedelsvaror innehåller samma substans?: </p>
-        <!-- print utbytbara läkemedel -->
-        {% for names in super_drug_list[nplId][3] %}
-            <p> {{ names }} </p>
-        {% endfor %}
+        <!-- Liknande substanser -->
         <p class="lead">Vilka andra substanser har likartad verkan? </p>
         <!-- print liknande substanser -->
         {% for names in super_drug_list[nplId][5] %}
             <p> {{ names }} </p>
         {% endfor %}
+
+        <!-- Kostar andra -->
         <p class="lead">Vad kostar andra alternativ? </p>
-
-
         {% for storlek, pris in super_drug_list[nplId][7].iteritems() %}
             {% if not "demoPrice" == storlek %}
                 <p> En förpackning med <strong>{{ storlek }} </strong> kostar: {{ pris }} kr </p>
             {% endif %}
         {% endfor %}
 
-        <p class="lead">Graviditet och amning?</p>
 
         <p class="lead">Doping? </p>
 
         <p class="text-muted">Särskilda anvisningar?</p>
 
 
-        <!-- Viktigt från 1177 -->
-        <p>
 
-        <p class="lead">Vikigt</p>
-        Man får inte mer smärtlindring genom att ta en större dos än vad som står på förpackningen eller vad läkaren
-        ordinerat. Om man tar en större dos än rekommenderat finns risk för att man kan få en allvarlig leverskada.
-        Därför ska man inte heller ta Alvedon tillsammans med andra läkemedel som innehåller paracetamol, eftersom den
-        sammanlagda dosen paracetamol kan bli för hög. Man ska kontakta läkare direkt om man har tagit för hög dos
-        eftersom leverskadan märks först efter ett par dagar.
-
-        Om man missbrukar alkohol ökar risken för leverskada. Om man har alkoholproblem ska man inte använda läkemedel
-        som innehåller paracetamol utan att först ha rådgjort med läkare.
-
-        Berusningseffekten av alkohol ökar inte genom att man tar paracetamol samtidigt.
-        </p>
 
     </div>
 </div>
