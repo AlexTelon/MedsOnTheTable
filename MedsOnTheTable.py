@@ -55,7 +55,7 @@ word_count = {"default": "word-count-default",
               "long": "word-count-long"}
 
 # Variables  ---------------------------------------------
-medArray = []
+medArray = {}
 super_drug_list = {}  # Dictionaryn som all information samlar i och som skickas till olika sidor.
 
 # substance_count = {}            # Räknar hur många du har av samma substans
@@ -110,15 +110,16 @@ def med_info(nplId):
 @app.route('/med/<nplId>')
 def add_drug(nplId):
     # # -----------------------------------------------------------------
-    # Make sure we only put in unique ids
-    if medArray.count(nplId) == 0:
-        medArray.append(nplId)
-
-    # # -----------------------------------------------------------------
     # # set up the connection to SIL
     url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
     sil = suds.client.Client(url)
 
+    # # -----------------------------------------------------------------
+    # Make sure we only put in unique ids
+    if nplId not in medArray:
+        subs = sil.service.getDistributedDrugsByDrugId(nplId, False, -1)
+        name = subs[0]['tradeName']
+        medArray[name] = nplId
     # # -----------------------------------------------------------------
     # # Hämta data från SIL
 
@@ -212,22 +213,14 @@ def add_drug(nplId):
     super_drug_list[nplId].append(trade_name_length)            # [8] - String. length of the trade name (can be removed)
 
 
+    # "nplId_list" and "len" is not used by layout right now
     return render_template('layout.html', nplId_list=medArray, len=len(medArray))
 
 
 #: Returns the current medicines that are to be shown in the navbar. Called from javascript in info.html
 @app.route('/navbarInfo')
 def navbarInfo():
-    dict = {};
-    url = "http://sil40.test.silinfo.se/silapi40/SilDB?wsdl"
-    sil = suds.client.Client(url)
-    for med in medArray:
-        subs = sil.service.getDistributedDrugsByDrugId(med, False, -1)
-        name = subs[0]['tradeName']
-        dict[name] = med
-
-    #print dict
-    return jsonify(dict)
+    return jsonify(medArray)
 
 
 #: simple return of number of medicines shown in the navbar
@@ -240,8 +233,7 @@ def nrOfIds():
 #: Remove all medicine from the list.
 @app.route('/clearNavbar')
 def clearAllIds():
-    while 0 != len(medArray):
-        medArray.pop()
+    medArray.clear()
     return index()
 
 
