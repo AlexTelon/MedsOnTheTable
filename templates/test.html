@@ -1,6 +1,27 @@
 {% extends "layout.html" %}
 
-{% block title %} {{ info }} information {% endblock %}
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Information on läkemedel</title>
+
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap-3.3.4-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="../static/bootstrap-3.3.4-dist/css/jasny-bootstrap.min.css">
+
+    <!-- Color for ATC-code -->
+    <link rel="stylesheet" type="text/css" href="../static/color.css">
+
+        <!-- Javascript  -->
+    <script src="../static/bootstrap-3.3.4-dist/js/jquery-2.1.3.min.js"></script>
+    <script src="../static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/bootstrap-3.3.4-dist/lib/holderjs/holder.js"></script>
+    <script type="text/javascript" src="../static/bootstrap-3.3.4-dist/lib/keen-js/dist/keen.min.js"></script>
+    <script type="text/javascript" src="../static/bootstrap-3.3.4-dist/js/meta.js"></script>
+
+    <script>
+        Holder.add_theme("white", { background: "#fff", foreground: "#a7a7a7", size: 10 });
+    </script>
+
+</head>
 
 {% block body %}
     <script>
@@ -9,6 +30,45 @@
     </script>
 
     <p>{{ info }}</p>
+
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="http://placehold.it/1200x315" alt="...">
+      <div class="carousel-caption">
+          <h3>Caption Text</h3>
+      </div>
+    </div>
+    <div class="item">
+      <img src="http://placehold.it/1200x315" alt="...">
+      <div class="carousel-caption">
+          <h3>Caption Text</h3>
+      </div>
+    </div>
+    <div class="item">
+      <img src="http://placehold.it/1200x315" alt="...">
+      <div class="carousel-caption">
+          <h3>Caption Text</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div> <!-- Carousel -->
 
 
 {% endblock %}
