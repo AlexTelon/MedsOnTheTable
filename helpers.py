@@ -83,4 +83,5 @@ def getSizeAndPrize(drugArticles):
             else:
                 size_and_price[drugArt['packSizeText']] = 99
 
+
     return size_and_price
