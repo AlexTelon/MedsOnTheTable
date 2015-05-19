@@ -2,8 +2,11 @@
 __author__ = 'johanordin'
 
 
-pris_databas = { '19851206000039': 56,
-                 }
+pris_databas = { '19851206000039': 56, #Ipren
+                 '19581115000027': 34, #Alvedon
+                 '19581215000033': 32, #Panodil
+                 '20020208000323': 22  #Cetirizin
+                }
 
 
 #: Lägg till de historiska namnen i en lista
@@ -83,5 +86,6 @@ def getSizeAndPrize(drugArticles):
             else:
                 size_and_price[drugArt['packSizeText']] = 99
 
+    size_and_price['demoPrice'] = pris_databas[str(drugArt['nplId'])]
 
     return size_and_price

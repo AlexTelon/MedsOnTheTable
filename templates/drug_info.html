@@ -23,11 +23,14 @@
         <div class="media">
             <div class="pull-right">
                 <a href="#">
-                    <!--<img class="media-object" data-src="holder.js/200x200/sky" alt=""> -->
-                    <img class="media-object"
+                    <!--<img class="media-object" data-src="holder.js/200x200/sky" alt="">
+
+                    <!-- Image of the box -->
+                    <!-- <img class="img-rounded"
                          src="../static/media/{{ super_drug_list[nplId][0]['distributedDrugs'][0]['nplId'] }}_f.png"
-                         alt="No image found" height="150" width="150">
-                    <img class="media-object"
+                         alt="No image found" height="150" width="150"> -->
+                    <!-- Image of the drug -->
+                    <img class="img-rounded"
                          src="../static/media/{{ super_drug_list[nplId][0]['distributedDrugs'][0]['nplId'] }}.png"
                          alt="No image found" height="150" width="150">
 
@@ -38,9 +41,9 @@
                 <h2 class="media-heading"><span
                         class="subscript">
                     {% if '®' in super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] %}
-                    {{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'][:-1]}}
+                        {{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'][:-1] }}
                     {% else %}
-                    {{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName']}}
+                        {{ super_drug_list[nplId][0]['distributedDrugs'][0]['tradeName'] }}
                     {% endif %}
                 </span>
                 </h2>
@@ -51,7 +54,7 @@
                     </tr>
                     <tr>
                         <td>Pris:</td>
-                        <td>400</td>
+                        <td>{{ super_drug_list[nplId][7]['demoPrice'] }}:-</td>
                     </tr>
                     <tr>
                         <td>test</td>
@@ -59,6 +62,41 @@
                     </tr>
                 </table>
             </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+
+                <a href="#" class="thumbnail">
+                    <img class="img-rounded"
+                         src="../static/media/{{ super_drug_list[nplId][0]['distributedDrugs'][0]['nplId'] }}.png"
+                         alt="No image found" height="100" width="100">
+                </a>
+
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <p class="lead">Andra läkemedelsvaror som innehåller samma substans?: </p>
+                <ul class="list-group">
+
+                <!-- print utbytbara läkemedel -->
+                    {% for names in super_drug_list[nplId][3] %}
+                        <li class="list-group-item">{{ names }}</li>
+                    {% endfor %}
+
+                </ul>
+
+
+                <!--
+                <a href="#" class="thumbnail">
+                    <img class="img-rounded"
+                         src="../static/media/{{ super_drug_list[nplId][0]['distributedDrugs'][0]['nplId'] }}.png"
+                         alt="No image found" height="100" width="100">
+                </a>
+                -->
+
+            </div>
+            ...
         </div>
 
 
@@ -76,27 +114,10 @@
 
 
         {% for storlek, pris in super_drug_list[nplId][7].iteritems() %}
-            <p> En förpackning med <strong>{{ storlek }} </strong> kostar: {{ pris }} kr </p>
+            {% if not "demoPrice" == storlek %}
+                <p> En förpackning med <strong>{{ storlek }} </strong> kostar: {{ pris }} kr </p>
+            {% endif %}
         {% endfor %}
-
-
-        <p class="lead">Biverkningar? </p>
-
-        <!-- print liknande substanser -->
-
-        {% if "0" in super_drug_list[nplId][6].keys() %}
-
-            <p> Det finns inga kända biverkningar för läkemedlet </p>
-        {% else %}
-
-            {% for key, value in super_drug_list[nplId][6].iteritems() %}
-                <p><strong>{{ key }} </strong></p>
-                {% for names in  value %}
-                    <p> {{ names }} </p>
-                {% endfor %}
-            {% endfor %}
-
-        {% endif %}
 
         <p class="lead">Graviditet och amning?</p>
 
@@ -125,17 +146,16 @@
 </div>
 
 
+<!-- Javascript  -->
+<script src="../static/bootstrap-3.3.4-dist/js/jquery-2.1.3.min.js"></script>
+<script src="../static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/bootstrap-3.3.4-dist/lib/holderjs/holder.js"></script>
+<script type="text/javascript" src="../static/bootstrap-3.3.4-dist/lib/keen-js/dist/keen.min.js"></script>
+<script type="text/javascript" src="../static/bootstrap-3.3.4-dist/js/meta.js"></script>
 
-    <!-- Javascript  -->
-    <script src="../static/bootstrap-3.3.4-dist/js/jquery-2.1.3.min.js"></script>
-    <script src="../static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../static/bootstrap-3.3.4-dist/lib/holderjs/holder.js"></script>
-    <script type="text/javascript" src="../static/bootstrap-3.3.4-dist/lib/keen-js/dist/keen.min.js"></script>
-    <script type="text/javascript" src="../static/bootstrap-3.3.4-dist/js/meta.js"></script>
-
-    <script>
-        Holder.add_theme("white", { background: "#fff", foreground: "#a7a7a7", size: 10 });
-    </script>
+<script>
+    Holder.add_theme("white", { background: "#fff", foreground: "#a7a7a7", size: 10 });
+</script>
 
 </body>
 </html>
